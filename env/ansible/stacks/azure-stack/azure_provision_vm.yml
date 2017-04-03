@@ -1,8 +1,5 @@
 ---
-- name: CREATE VM PLAYBOOK
-  hosts: localhost
-  connection: local
-  gather_facts: False
-
+- name: PROVISION VM PLAYBOOK
+  hosts: all 
   roles:
-    - create_vm
+    - provision_vm

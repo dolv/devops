@@ -22,12 +22,27 @@
 
 - name: Register VM public IP address to variable
   set_fact:
+    timestamp: "{{ lookup('pipe', 'date +%s_%N') }}"
     vm_publicIP: "{{ (vm_creation_results | json_query('ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[*].properties.ipConfigurations[*].properties.publicIPAddress.properties.ipAddress'))[0][0] }}" 
   tags:
     - vm
 
+- name: "Create temp inventoory directory"  
+  file:
+    path: "tmp/{{ timestamp }}_Azure_VM"
+    state: directory
+  tags:
+    - vm
+    - inventory_file
+
 - name: Create inventory file for newly created VM
-  templase: 
+  template: 
     src: inventory.j2
-    dest: /tmp/myDemoVM/web-server
+    dest: "/tmp/{{ timestamp }}_Azure_VM/web-server"
     mode: 0644
+  tags:
+    - vm
+    - inventory_file
+  register: inventory_file
+
+- debug: var=inventory_file

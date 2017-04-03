@@ -1,0 +1,27 @@
+---
+- name: Install httpd OS packages
+  package: 
+    name: httpd
+    state: present
+  become: yes
+
+- name: Change www folder permissions and owner
+  file:
+    path: /var/www/html
+    state: directory
+    owner: apache
+    group: "{{ ansible_ssh_user }}"
+    mode: 0775
+  become: true
+
+- name: Apply index.html template
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    mode: 0755
+
+- name: Start httpd
+  service:
+    name: httpd
+    state: started
+  become: true
