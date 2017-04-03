@@ -1,9 +1,12 @@
 ---
+azure_credentials_profile: "default"
+azure_subscription_id: "default_subscription"
 azure_client_id: "NotAvailable"
 azure_secret: "ChangeMe"
+azure_tenant: "tenant_id"
 azure_resource_group_name: "MyDemoResourceGroup"
 azure_default_vm_name: "MyDemoVM"
-azure_default_storage_name: "dolvdemoaccount"
+azure_default_storage_name: "newgisticsdemoaccount"
 azure_default_location: "westeurope"
 azure_default_vm_size: "Standard_DS1"
 azure_default_vm_image_id: "/Subscriptions/78ce1ce9-8526-4218-b6c5-0f5afe5e3d03/Providers/Microsoft.Compute/Locations/westeurope/Publishers/OpenLogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.3/Versions/7.3.20161221" 

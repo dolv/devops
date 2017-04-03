@@ -1,6 +1,11 @@
 ---
 - name: Create a VM with exiting storage account and NIC
   azure_rm_virtualmachine:
+    profile: "{{ azure_credentials_profile }}"
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     resource_group: "{{ VM_config.resource_group }}"
     name: "{{ VM_config.name }}"
     vm_size: "{{ VM_config.vm_size }}"
@@ -29,7 +34,7 @@
 
 - name: "Create temp inventoory directory"  
   file:
-    path: "tmp/{{ timestamp }}_Azure_VM"
+    path: "/tmp/{{ timestamp }}_Azure_VM"
     state: directory
   tags:
     - vm

@@ -1,6 +1,10 @@
 ---
 - name: Create a resource group
   azure_rm_resourcegroup:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     name: "{{ azure_resource_group_name }}"
     location: "{{ azure_default_location }}"
     tags:

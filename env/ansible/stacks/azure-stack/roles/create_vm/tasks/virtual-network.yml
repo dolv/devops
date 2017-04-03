@@ -1,6 +1,10 @@
 ---
 - name: Create a virtual network
   azure_rm_virtualnetwork:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     name: "{{ azure_vnet_name }}"
     resource_group: "{{ azure_resource_group_name }}"
     address_prefixes_cidr:
@@ -13,6 +17,10 @@
 - debug: var=vnet.state.address_prefixes[0]
 - name: Create a subnet
   azure_rm_subnet:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     name: "{{ azure_default_subnet_name }}"
     virtual_network_name: "{{ azure_vnet_name }}"
     resource_group: "{{ azure_resource_group_name }}"

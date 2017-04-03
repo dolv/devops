@@ -7,8 +7,13 @@
 #
 - name: Create a storage account
   azure_rm_storageaccount:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     resource_group: "{{ azure_resource_group_name }}"
     name: "{{ storage_account.name }}"
     type: "{{ storage_account.account_type }}"
     tags:
       testing: testing
+  #ignore_errors: true

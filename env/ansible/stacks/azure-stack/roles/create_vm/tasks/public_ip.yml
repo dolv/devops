@@ -1,6 +1,10 @@
 ---
 - name: Create a public ip address
   azure_rm_publicipaddress:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     resource_group: "{{ azure_resource_group_name }}"
     name: "{{ azure_default_publicIP_name }}"
     allocation_method: Static

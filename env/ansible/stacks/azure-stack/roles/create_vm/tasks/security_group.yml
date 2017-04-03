@@ -1,6 +1,10 @@
 ---
 - name: Configure SSH Rules
   azure_rm_securitygroup: 
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     resource_group: "{{ azure_resource_group_name }}"
     name: "{{ azure_default_security_group }}"
     purge_rules: yes
@@ -14,7 +18,11 @@
         direction: Inbound
 
 - name: Configure HTTP/HTTPS Rules
-  azure_rm_securitygroup: 
+  azure_rm_securitygroup:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     resource_group: "{{ azure_resource_group_name }}"
     name: "{{ azure_default_security_group }}"
     rules:
@@ -35,6 +43,10 @@
 
 - name: Allow outbound trafic
   azure_rm_securitygroup:
+    secret: "{{ azure_secret }}"
+    tenant: "{{ azure_tenant }}"
+    subscription_id: "{{ azure_subscription_id }}"
+    client_id: "{{ azure_client_id }}"
     resource_group: "{{ azure_resource_group_name }}"
     name: "{{ azure_default_security_group }}"
     rules:
