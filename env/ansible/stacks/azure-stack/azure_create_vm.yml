@@ -1,0 +1,8 @@
+---
+- name: CREATE VM PLAYBOOK
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  roles:
+    - create_vm
