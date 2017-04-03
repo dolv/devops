@@ -1,0 +1,6 @@
+---
+- name: Create a public ip address
+  azure_rm_publicipaddress:
+    resource_group: "{{ azure_resource_group_name }}"
+    name: "{{ azure_default_publicIP_name }}"
+    allocation_method: Static

@@ -1,0 +1,5 @@
+---
+-name: Install packages on newly creted VM
+ package:
+    name: httpd
+    state: latest

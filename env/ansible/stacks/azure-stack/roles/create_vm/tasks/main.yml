@@ -1,0 +1,16 @@
+---
+- include: resourse_group.yml 
+
+- include: virtual-network.yml
+
+- include: security_group.yml
+
+- include: public_ip.yml
+
+- include: network_interfaces.yml
+
+- include: storage_account.yml 
+  tags:
+    - strorage_accaunt
+- include: vm.yml
+

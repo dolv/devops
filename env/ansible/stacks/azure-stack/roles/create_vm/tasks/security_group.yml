@@ -1,0 +1,49 @@
+---
+- name: Configure SSH Rules
+  azure_rm_securitygroup: 
+    resource_group: "{{ azure_resource_group_name }}"
+    name: "{{ azure_default_security_group }}"
+    purge_rules: yes
+    rules:
+      - name: AllowSSHFromAll
+        protocol: Tcp
+        source_address_prefix: '*'
+        destination_port_range: 22-23
+        access: Allow
+        priority: 100
+        direction: Inbound
+
+- name: Configure HTTP/HTTPS Rules
+  azure_rm_securitygroup: 
+    resource_group: "{{ azure_resource_group_name }}"
+    name: "{{ azure_default_security_group }}"
+    rules:
+      - name: AllowHTTPfromAll
+        protocol: Tcp
+        source_address_prefix: '*'
+        destination_port_range: 80
+        access: Allow
+        priority: 200
+        direction: Inbound
+      - name: AllowHTTPSfromAll
+        protocol: Tcp
+        source_address_prefix: '*'
+        destination_port_range: 443
+        access: Allow
+        priority: 250
+        direction: Inbound
+
+- name: Allow outbound trafic
+  azure_rm_securitygroup:
+    resource_group: "{{ azure_resource_group_name }}"
+    name: "{{ azure_default_security_group }}"
+    rules:
+      - name: AllowOutboundToAll
+        destination_address_prefix: '*'        
+        destination_port_range: '*'
+        protocol: '*'
+        access: Allow
+        priority: 500
+        direction: Outbound
+        source_port_range: '*'
+        source_address_prefix: '*'

@@ -1,0 +1,9 @@
+---
+- name: Create a network interface with private IP and Public IP address
+  azure_rm_networkinterface:
+    name: MyDemoNIC 
+    resource_group: "{{ azure_resource_group_name }}"
+    virtual_network_name: "{{ azure_vnet_name }}"
+    security_group_name: "{{ azure_default_security_group }}"
+    subnet_name: "{{ azure_default_subnet_name }}"
+    public_ip_address_name: "{{ azure_default_publicIP_name }}"
