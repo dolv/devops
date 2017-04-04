@@ -48,6 +48,3 @@
   tags:
     - vm
     - inventory_file
-  register: inventory_file
-
-- debug: var=inventory_file
