@@ -5,6 +5,10 @@
 #    name: clh0002
 #    state: absent
 #
+- name: Get list of storage accounts for the given resource group
+  shell: "az storage account list -g {{ azure_resource_group_name }} | grep name | grep -c {{ storage_account.name }}" 
+  register: account_list
+
 - name: Create a storage account
   azure_rm_storageaccount:
     secret: "{{ azure_secret }}"
@@ -16,4 +20,4 @@
     type: "{{ storage_account.account_type }}"
     tags:
       testing: testing
-  #ignore_errors: true
+  when: "{{ account_list.stdout }} == 0"
