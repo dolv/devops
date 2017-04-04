@@ -11,6 +11,6 @@
 
 - include: storage_account.yml 
   tags:
-    - strorage_accaunt
+    - storage_accaunt
 - include: vm.yml
 

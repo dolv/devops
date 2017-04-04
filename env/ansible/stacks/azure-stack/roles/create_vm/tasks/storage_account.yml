@@ -20,4 +20,4 @@
     type: "{{ storage_account.account_type }}"
     tags:
       testing: testing
-  when: "{{ account_list.stdout }} == 0"
+  when: account_list.stdout|int == 0
