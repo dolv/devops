@@ -40,7 +40,7 @@ Click on VM and in the Essentials section you will find Public IP address. Copy 
 
 2. Once you are in the system console you now have to install packages needed for our solution to run.
 
-    `sudo yum install -y git epel-release python-pip python-wheel gcc libffi-devel python-devel openssl-devel`
+    `sudo yum install -y git epel-release python2-pip python-wheel gcc libffi-devel python-devel openssl-devel python2-jmespath`
 
 3. Ensure you have latest pip version with
 
@@ -61,7 +61,7 @@ Thus, once it is enebled in the system you are able to install it with the follo
 
 7. Using the Azure Resource Manager modules requires having Azure Python SDK installed on the host running Ansible. You will need to have == v2.0.0RC5 installed. The simplest way to install the SDK is via pip:
 
-    `pip install "azure==2.0.0rc6"`
+    `sudo pip install "azure==2.0.0rc6"`
 
 8. Install the new version of the Azure CLI
 
@@ -187,5 +187,27 @@ Thus, once it is enebled in the system you are able to install it with the follo
     
     `cd devops/env/ansible/stacks/azure-stack && ls`
          
-15. Edit bootstrap.sh script, place correct credential there and save
-16. Execute bootstrap script `./bootstrap.sh`
+16. Edit bootstrap.sh script, place correct credential there and save
+17. Generate SSH key for accessing provisioned VM
+
+    `ssh-keygen`
+    
+    Hit enter to all questions.
+    
+18. Get the key string from the public key file you've just created
+    
+    `cat ~/.ssh/id_rsa.pub | cut -d ' ' -f 2`
+    
+    The outpuut should be similar to this one:
+    
+    ```
+    AAAAB3NzaC1yc2EAAAADAQABAAABAQDFQZJpqohHPijvxKUovXE0u0gSiKwz4cB5hBduOiyptRbmWnmX0TbgKGRcZYGV3S/WPrrOqZhMfXJjv+9LrUdz7EvF2ixGXJPkUtGKWA1y8Vq33eX6zgYKPOvQTyqxskfRcGzcu5iPfdssrWE43+kMqrMDjEyyfEelCdJivuSlKOvdiVE3cx/xmR/kgzqdSNFSWO+hGe9g1wLVPpcEAwLLOLE7w/VlZEec+1DG9AZFXQM4cZyXrpMqrKozZXS9iKbJ7PVS1uhE5UPMQv3VYOjgBy8ufVwcOoamULK6SkIhnY1nJflO93OWKHSRBQSNcC+giOMnNMkZifK8DcrKJTgD
+    ```
+19. Put this as a value of the azure_ssh_public_key_string variable in the roles/create_vm/defaults/main.yml file. Or use extravars with this vallue in the bootstrap.sh Or any other way you like better.   
+    the main.yml extract will look like this:
+    
+    ```
+    azure_ssh_public_key_string: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFQZJpqohHPijvxKUovXE0u0gSiKwz4cB5hBduOiyptRbmWnmX0TbgKGRcZYGV3S/WPrrOqZhMfXJjv+9LrUdz7EvF2ixGXJPkUtGKWA1y8Vq33eX6zgYKPOvQTyqxskfRcGzcu5iPfdssrWE43+kMqrMDjEyyfEelCdJivuSlKOvdiVE3cx/xmR/kgzqdSNFSWO+hGe9g1wLVPpcEAwLLOLE7w/VlZEec+1DG9AZFXQM4cZyXrpMqrKozZXS9iKbJ7PVS1uhE5UPMQv3VYOjgBy8ufVwcOoamULK6SkIhnY1nJflO93OWKHSRBQSNcC+giOMnNMkZifK8DcrKJTgD'
+    ```
+
+20. Execute bootstrap script `./bootstrap.sh`
