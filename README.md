@@ -6,7 +6,7 @@ roperly configured for it.
 Further I'll walk you through the configuration steps.
 Please note that these steps will be performed on the CentOS Linux based distributive in particular CentOS-based 7.3 published by OpenLogic
 
-## Creating VM in on Azure Portal.
+## Creating VM via Azure Portal.
 
 1. Log in to [https://portal.azure.com](https://portal.azure.com)
 2. Click big plus in the upper-left corner. You will see submenu called **Marketplace**
@@ -36,74 +36,74 @@ Click on VM and in the Essentials section you will find Public IP address. Copy 
 ## Preparing master host
 1. Connect to the VM via SSH with the following command.
 
- `ssh yourusername@12.123.23.456` replace with correct username and IP respectively.
+    `ssh yourusername@12.123.23.456` replace with correct username and IP respectively.
 
 2. Once you are in the system console you now have to install packages needed for our solution to run.
 
- `sudo yum install -y git epel-release python-pip python-wheel gcc libffi-devel python-devel openssl-devel`
+    `sudo yum install -y git epel-release python-pip python-wheel gcc libffi-devel python-devel openssl-devel`
 
 3. Ensure you have latest pip version with
 
- `sudo pip install --upgrade pip`
+    `sudo pip install --upgrade pip`
 
 4. Ansible is in EPEL repositosy.
 Thus, once it is enebled in the system you are able to install it with the following command:
 
- `sudo yum install -y ansible`
+    `sudo yum install -y ansible`
 
 5. Create dir for the repositiories. E.g
 
- `mkdir -p ~/repos && cd ~/repos`
+    `mkdir -p ~/repos && cd ~/repos`
 
 6. Clone this repo with the command
 
- `git clone https://github.com/dolv/devops.git`
+    `git clone https://github.com/dolv/devops.git`
 
 7. Using the Azure Resource Manager modules requires having Azure Python SDK installed on the host running Ansible. You will need to have == v2.0.0RC5 installed. The simplest way to install the SDK is via pip:
 
-   `pip install "azure==2.0.0rc6"`
+    `pip install "azure==2.0.0rc6"`
 
 8. Install the new version of the Azure CLI
 
- `curl -L https://aka.ms/InstallAzureCli | bash`
- hit enter to all questions to go with the default options or provide answers to the script questions.
-
- ** Run `exec -l $SHELL` to restart your shell. **
+     `curl -L https://aka.ms/InstallAzureCli | bash`
+     hit enter to all questions to go with the default options or provide answers to the script questions.
+    
+     ** Run `exec -l $SHELL` to restart your shell. **
 
 9. Check if everything works so far with the command
-
- `az --version`
-
- You should see the output similar to the following one:
- ```
- azure-cli (2.0.1)
-
- acs (2.0.1)
- appservice (0.1.1b6)
- batch (0.1.1b5)
- cloud (2.0.0)
- component (2.0.0)
- configure (2.0.1)
- container (0.1.1b4)
- core (2.0.1)
- documentdb (0.1.1b2)
- feedback (2.0.0)
- find (0.0.1b1)
- iot (0.1.1b3)
- keyvault (0.1.1b6)
- network (2.0.1)
- nspkg (2.0.0)
- profile (2.0.1)
- redis (0.1.1b3)
- resource (2.0.1)
- role (2.0.0)
- sql (0.1.1b6)
- storage (2.0.1)
- vm (2.0.1)
-
- Python (Linux) 2.7.5 (default, Nov  6 2016, 00:28:07)
- [GCC 4.8.5 20150623 (Red Hat 4.8.5-11)]
- ```
+    
+     `az --version`
+    
+     You should see the output similar to the following one:
+     ```
+     azure-cli (2.0.1)
+    
+     acs (2.0.1)
+     appservice (0.1.1b6)
+     batch (0.1.1b5)
+     cloud (2.0.0)
+     component (2.0.0)
+     configure (2.0.1)
+     container (0.1.1b4)
+     core (2.0.1)
+     documentdb (0.1.1b2)
+     feedback (2.0.0)
+     find (0.0.1b1)
+     iot (0.1.1b3)
+     keyvault (0.1.1b6)
+     network (2.0.1)
+     nspkg (2.0.0)
+     profile (2.0.1)
+     redis (0.1.1b3)
+     resource (2.0.1)
+     role (2.0.0)
+     sql (0.1.1b6)
+     storage (2.0.1)
+     vm (2.0.1)
+    
+     Python (Linux) 2.7.5 (default, Nov  6 2016, 00:28:07)
+     [GCC 4.8.5 20150623 (Red Hat 4.8.5-11)]
+     ```
 
 
 10. login to the Azure from console
@@ -117,24 +117,75 @@ Thus, once it is enebled in the system you are able to install it with the follo
 
 11. Create a service principal for your app
 
- `az ad sp create-for-rbac --name ansible --password SomeAppPasswordString
+    `az ad sp create-for-rbac --name ansible --password {strong password}
 `
 
- Your results should look similar to this output (but with values you supplied):
- ```
- {
-   "appId": "59db508a-3429-4094-a828-e8b4680fc790",
-   "displayName": "WebApplication17089",
-   "name": "https://webapplication17089.azurewebsites.net",
-   "password": {the password you supplied displayed here},
-   "tenant": "72f988bf-86f1-41af-91ab-2d7cd011db47"
- }
- ```
+    Your results should look similar to this output (but with values you supplied):
+     ```
+     {
+       "appId": "a487e0c1-82af-47d9-9a0b-af184eb87646d",
+       "displayName": "ansible",
+       "name": "http://ansible",
+       "password": {strong password},
+       "tenant": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+     }
+     ```
+    
+     You can verify a list of your registered applications with command `az ad app list`
+     
+     And you can if needed get information about the service principal.
+     
+     `az ad sp show --id a487e0c1-82af-47d9-9a0b-af184eb87646d`
+     
+     ```aidl
+     {
+       "appId": "a487e0c1-82af-47d9-9a0b-af184eb87646d",
+       "displayName": "ansible",
+       "objectId": "0ceae62e-1a1a-446f-aa56-2300d176659bde",
+       "objectType": "ServicePrincipal",
+       "servicePrincipalNames": [
+         "http://ansible",
+         "a487e0c1-82af-47d9-9a0b-af184eb87646d"
+       ]
+     }
+    ```
+ 
+12. Sign in using the service principal
+ 
+      `az login --service-principal -u a487e0c1-82af-47d9-9a0b-af184eb87646d --password {strong password} --tenant XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`
 
+     You will see this output after a successful sign-on:
+     ```
+        [
+           {
+             "cloudName": "AzureCloud",
+             "id": "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYYY",
+             "isDefault": true,
+             "state": "Enabled",
+             "tenantId": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+             "user": {
+               "name": "a487e0c1-82af-47d9-9a0b-af184eb87646d",
+               "type": "servicePrincipal"
+             }
+           }
+        ]
+     ```
 
-
-
-
-Go inside the devops/env/ansible/stacks/azure-stack
-
- ` cd devops/env/ansible/stacks/azure-stack`
+13. Create ~/.azure/credentials file with the contents similar to the shown below:
+    ```
+    [newgistics]
+    subscription_id=YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYYY
+    client_id=a487e0c1-82af-47d9-9a0b-af184eb87646d
+    secret={strong password}
+    tenant=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    ```
+   
+14. Change permissions for the sake of securiry
+    `chmod 600 ~/.azure/credentials`
+  
+15. Go inside the devops/env/ansible/stacks/azure-stack and list folder contents
+    
+    `cd devops/env/ansible/stacks/azure-stack && ls`
+         
+15. Edit bootstrap.sh script, place correct credential there and save
+16. Execute bootstrap script `./bootstrap.sh`
