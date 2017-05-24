@@ -2,16 +2,18 @@ packages_os:
   - epel-release
   - R
   - screen
+  - htop
 
 Rlibs:
   - randomForest
   - doMC
 
 appuser: usertr
+scripts_folder: /app/share 
 
 fileshares:
   - remote_share: "//rtrainingmodels.file.core.windows.net/modelshare"
-    local_mount_point: "/app/share/models"
+    local_mount_point: "{{ scripts_folder }}/models"
     fstype: "cifs"
     mount_options: "credentials=/home/{{ appuser }}/.cred/modelshare,rw,serverino,vers=3.0,file_mode=0777,dir_mode=0777"
     dump_frequency: 0

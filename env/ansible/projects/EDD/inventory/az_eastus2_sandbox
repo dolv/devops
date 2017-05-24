@@ -9,10 +9,10 @@ managing_node
 research_node
 
 [managing_node]
-managingNode00 ansible_port=2220 ansible_host=localhost
+managingNode00 ansible_host=managingnode00.sandbox.dolv
 
 [research_node]
-researchNode01 ansible_port=2222 ansible_host=localhost
-researchNode11 ansible_port=2233 ansible_host=localhost
+researchNode01 ansible_host=researchnode01.sandbox.dolv
+researchNode11 ansible_host=researchnode11.sandbox.dolv
 
 
