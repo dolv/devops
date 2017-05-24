@@ -1,0 +1,9 @@
+#!/bin/bash
+start=$(date +%s)
+echo "Rscript execution started at $(date +%m/%d/%Y\ %T:%N\ %Z)" 
+Rscript TestOnAzure.R
+#sleep 2
+end=$(date +%s)
+runtime=$((end-start))
+echo "Runtime $runtime seconds"
+

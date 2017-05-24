@@ -1,0 +1,6 @@
+---
+- name: Install R libraries
+  shell: R -e "install.packages(\"{{item}}\", repos=\"https://cran.revolutionanalytics.com\")"
+  become: yes
+  become_method: sudo
+  with_items: "{{Rlibs}}"
