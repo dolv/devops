@@ -1,0 +1,8 @@
+---
+- name: Install needed OS packages
+  package:
+    name: "{{item}}"
+    state: present
+  with_items: "{{ packages_os }}"
+  become: true
+  become_method: sudo

@@ -1,0 +1,3 @@
+[research_node]
+researchNode01 ansible_port=2222 ansible_host=localhost
+researchNode11 ansible_port=2233 ansible_host=localhost

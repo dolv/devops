@@ -1,0 +1,18 @@
+[common:children]
+azure
+
+[azure:children]
+eastus2_sandbox
+
+[eastus2_sandbox:children]
+managing_node
+research_node
+
+[managing_node]
+managingNode00 ansible_port=2220 ansible_host=localhost
+
+[research_node]
+researchNode01 ansible_port=2222 ansible_host=localhost
+researchNode11 ansible_port=2233 ansible_host=localhost
+
+

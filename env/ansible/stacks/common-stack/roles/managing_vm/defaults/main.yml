@@ -1,13 +1,20 @@
 packages_os:
   - epel-release
-  - R
   - screen
-
-Rlibs:
-  - randomForest
-  - doMC
+  - mc
+  - nmap
+  - ansible
+  - ansible-lint
+  - gcc
+  - libffi-devel
+  - python-devel
+  - openssl-devel
+  - git
 
 appuser: usertr
+
+app_dir: /app
+az_cli_folder: "{{ app_dir }}/az_cli"
 
 fileshares:
   - remote_share: "//rtrainingmodels.file.core.windows.net/modelshare"

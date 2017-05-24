@@ -1,0 +1,46 @@
+---
+- name: Create path for fileshare credentials files
+  file: 
+    path: "{{ item | dirname }}"
+    state: directory
+    mode: 0750
+  with_items: "{{ fileshares | map(attribute='share_credentials_dst_location') | list }}"
+
+- name: Place fileshare credentials files
+  copy:
+    src: "{{ item.share_credentials_src_location }}"
+    dest: "{{ item.share_credentials_dst_location }}"
+    owner: "{{ appuser }}"
+    group: root
+    mode: "ug+rw,o-wrx"
+  become: true
+  become_method: sudo
+  with_items: "{{ fileshares }}"
+
+- name: Create mount points
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  with_items: "{{ fileshares | map(attribute='local_mount_point') | list }}"
+  become: true
+
+- name: Add fileshare entries to fstab
+  mount:
+    path: "{{ item.local_mount_point }}"
+    state: present
+    src: "{{ item.remote_share }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.mount_options }}"
+    dump: "{{ item.dump_frequency }}"
+    passno: "{{ item.fsck_order }}"
+  with_items: "{{ fileshares }}"
+  become: true
+  become_method: sudo
+
+- name: Mount up file shares
+  shell: "mount {{ item }}"
+  with_items: "{{ fileshares | map(attribute='local_mount_point') | list }}" 
+  become: true
+  become_method: sudo
