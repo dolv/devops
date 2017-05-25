@@ -20,3 +20,10 @@ fileshares:
     fsck_order: 0
     share_credentials_dst_location: "/home/{{ appuser }}/.cred/modelshare"
     share_credentials_src_location: modelshare
+
+Rscript_name: "{{ scripts_folder }}/models/TestOnAzure.R"
+threads_number: "{{ ansible_processor_vcpus }}"
+dataset_rows_quantity: 10000
+pass_num: 1
+models_location: "{{ scripts_folder }}/models"
+output_file: "{{ scripts_folder }}/results_$start.txt"

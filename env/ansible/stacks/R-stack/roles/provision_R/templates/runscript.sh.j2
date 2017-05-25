@@ -1,10 +1,10 @@
 #!/bin/bash
 start=$(date +%s)
-echo "The script will run with {{ ansible_processor_vcpus }} threads"
+echo -e "The script will run with {{ threads_number }} threads\e[49m\e{39m"
 echo "Rscript execution started at $(date +%m/%d/%Y\ %T:%N\ %Z)" 
-Rscript {{ scripts_folder }}/models/TestOnAzure.R {{ ansible_processor_vcpus }} 10000 1 {{ scripts_folder }}/models/ {{ scripts_folder }}/results_$start.txt
+Rscript {{ Rscript_name }} {{ threads_number }} {{ dataset_rows_quantity }} {{ pass_num }} {{ models_location }} {{ output_file }}
 #sleep 2
 end=$(date +%s)
 runtime=$((end-start))
-echo "Runtime $runtime seconds"
+echo -e "\e[92mRuntime: $runtime seconds\e[39m"
 
