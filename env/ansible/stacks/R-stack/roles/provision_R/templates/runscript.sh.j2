@@ -1,8 +1,8 @@
 #!/bin/bash
 start=$(date +%s)
-echo -e "\e[49m\e[100mThe script will run on {{ ansible_processor_vcpus }} VCPU cores VM\e[49m\e[39m"
+echo -e "\e[49m\e[100mThe script is executed on {{ ansible_processor_vcpus }} VCPU cores VM\e[49m\e[39m"
 echo "Rscript execution started at $(date +%m/%d/%Y\ %T:%N\ %Z)" 
-echo "The script will run on {{ ansible_processor_vcpus }} VCPU cores VM" > {{ output_file }}
+echo -e "\e[49m\e[100mThe script is executed on {{ ansible_processor_vcpus }} VCPU cores VM\e[49m\e[39m" > {{ output_file }}
 Rscript {{ Rscript_name }} {{ threads_number }} {{ dataset_rows_quantity }} {{ pass_num }} {{ models_location }}/ {{ output_file }}
 #sleep 2
 end=$(date +%s)
