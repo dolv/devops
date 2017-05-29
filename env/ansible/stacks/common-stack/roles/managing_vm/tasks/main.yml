@@ -1,4 +1,4 @@
-- include: install_packages.yml
+- include: ../../generic/tasks/install_packages.yml
 
-- include: configure_storage.yml
+- include: ../../generic/tasks/configure_storage.yml
   tags: storage

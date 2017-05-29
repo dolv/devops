@@ -2,4 +2,5 @@
 - name: PROVISION VM PLAYBOOK
   hosts: all
   roles:
+    - generic
     - managing_vm

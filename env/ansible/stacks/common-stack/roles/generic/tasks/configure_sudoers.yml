@@ -1,0 +1,11 @@
+---
+- name: Configure NOPASSWD for waagent user
+  lineinfile:
+    path: /etc/sudoers.d/waagent
+    state: present
+    regexp: '^(\S+)\sALL=\(ALL\) ALL'
+    backrefs: yes
+    line: '\1 ALL=(ALL) NOPASSWD:ALL'
+  become: true
+  become_method: sudo
+     

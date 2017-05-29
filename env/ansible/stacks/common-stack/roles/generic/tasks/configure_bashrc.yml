@@ -1,0 +1,15 @@
+---
+- name: Make colorized bash PROMPT
+  blockinfile:
+    path: /etc/bashrc
+    block: |
+      if [ "$PS1" ]; then
+         if [ $EUID -ne 0 ]; then
+            PS1="{{ regular_user_PS1 }}" 
+         else
+            PS1="{{ root_user_PS1 }}" 
+         fi
+      fi
+  become: true
+  become_method: sudo
+     

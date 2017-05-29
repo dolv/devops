@@ -1,0 +1,22 @@
+---
+regular_user_PS1: "\\[\\033[36m\\]\\t \\[\\033[33m\\]\\u\\[\\033[32m\\]@\\H\\[\\033[94m\\]:\\w\\[\\033[39m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+root_user_PS1: "\\[\\033[36m\\]\\t \\[\\e[31m\\]\\u@\\H\\[\\e[94m\\]:\\w\\[\\e[91m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+
+packages_os:
+  - epel-release
+  - screen
+  - mc
+  - nmap
+  - ansible
+  - ansible-lint
+  - gcc
+  - libffi-devel
+  - python-devel
+  - openssl-devel
+  - git
+
+appuser: usertr
+
+app_dir: /app
+az_cli_folder: "{{ app_dir }}/az_cli"
+

@@ -1,0 +1,14 @@
+---
+- include: configure_bashrc.yml 
+  tags: configure_bashrc
+
+- include: install_packages.yml
+  tags:
+    - install_packages
+    - install_az_cli
+
+- include: configure_storage.yml
+  tags: configure_storage
+
+- include: install_az_cli.yml
+  tags: install_az_cli
