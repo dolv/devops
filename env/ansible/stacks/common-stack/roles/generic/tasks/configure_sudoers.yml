@@ -1,4 +1,11 @@
 ---
+- name: Check existance of /etc/sudoers.d/waagent file
+  stat:
+    path: /etc/sudoers.d/waagent
+  register: waagent
+  become: true
+  become_method: sudo
+
 - name: Configure NOPASSWD for waagent user
   lineinfile:
     path: /etc/sudoers.d/waagent
@@ -8,4 +15,4 @@
     line: '\1 ALL=(ALL) NOPASSWD:ALL'
   become: true
   become_method: sudo
-     
+  when: waagent.stat.exists | bool 

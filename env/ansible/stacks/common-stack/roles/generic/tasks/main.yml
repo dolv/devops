@@ -1,4 +1,7 @@
 ---
+- include: configure_sudoers.yml
+  tags: configure_sudoers
+
 - include: configure_bashrc.yml 
   tags: configure_bashrc
 
