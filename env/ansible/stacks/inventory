@@ -1,1 +1,1 @@
-/app/repo/devops/env/ansible/project_vars/inventory
+../project_vars/inventory/
