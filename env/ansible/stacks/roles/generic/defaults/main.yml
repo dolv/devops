@@ -14,6 +14,7 @@ packages_os:
   - python-devel
   - openssl-devel
   - git
+  - htop
 
 appuser: usertr
 

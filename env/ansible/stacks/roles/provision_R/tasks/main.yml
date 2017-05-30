@@ -1,0 +1,13 @@
+- include: ../../generic/tasks/configure_bashrc.yml
+
+- include: ../../generic/tasks/configure_sudoers.yml
+
+- include: ../../generic/tasks/install_packages.yml
+
+- include: configure_R.yml
+
+- include: ../../generic/tasks/configure_storage.yml
+  tags: storage
+
+- include: configure_R_scripts.yml
+  tags: Rscript

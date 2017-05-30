@@ -2,4 +2,4 @@
 - name: PROVISION VM PLAYBOOK
   hosts: all 
   roles:
-    - provision_vm
+    - provision_azure_vm

@@ -1,3 +1,6 @@
+regular_user_PS1: "\\[\\033[36m\\]\\t \\[\\033[32m\\]\\u\\[\\033[32m\\]@\\H\\[\\033[94m\\]:\\w\\[\\033[39m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+root_user_PS1: "\\[\\033[36m\\]\\t \\[\\e[31m\\]\\u@\\H\\[\\e[94m\\]:\\w\\[\\e[91m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+
 packages_os:
   - epel-release
   - R
@@ -25,5 +28,6 @@ Rscript_name: "{{ scripts_folder }}/models/TestOnAzure.R"
 threads_number: "{{ ansible_processor_vcpus }}"
 dataset_rows_quantity: 10000
 pass_num: 1
+trees_num: 128
 models_location: "{{ scripts_folder }}/models"
 output_file: "{{ scripts_folder }}/results_$start.txt"

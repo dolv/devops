@@ -1,9 +1,0 @@
-- include: install_packages.yml
-
-- include: configure_R.yml
-
-- include: configure_storage.yml
-  tags: storage
-
-- include: configure_R_scripts.yml
-  tags: Rscript

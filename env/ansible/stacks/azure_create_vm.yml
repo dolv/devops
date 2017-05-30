@@ -5,4 +5,4 @@
   gather_facts: False
 
   roles:
-    - create_vm
+    - create_azure_vm

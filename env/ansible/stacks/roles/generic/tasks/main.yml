@@ -13,5 +13,5 @@
 - include: configure_storage.yml
   tags: configure_storage
 
-- include: install_az_cli.yml
-  tags: install_az_cli
+#- include: install_az_cli.yml
+#  tags: install_az_cli

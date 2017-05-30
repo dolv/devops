@@ -3,10 +3,9 @@
 Here you see folder named env. It means environment provisioning. Under the env you will see split by provisioning tools: Ansible, Chef, Terraform maybe something else will be added.
 
 
-## Notes About ansible/azure-stack
+## Notes About ansible & AZURE Cloud
 
-In order to be able to run playbooks from ansible/azure-stack you need to get the master host (the host where you run the playboook from) to be p
-roperly configured for it.
+In order to be able to run playbooks related to AZURE you need to get the master host (the host where you run the playboook from) to be properly configured for it.
 
 Further I'll walk you through the configuration steps.
 Please note that these steps will be performed on the CentOS Linux based distributive in particular CentOS-based 7.3 published by OpenLogic
