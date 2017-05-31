@@ -4,7 +4,7 @@
     path: /etc/bashrc
     block: |
       get_repo_name() {
-          reponame=$(basename $(git rev-parse --show-toplevel ) 2>/dev/null)
+          reponame=$(basename $(git rev-parse --show-toplevel 2> /dev/null) 2> /dev/null) 
           if [ $? -eq 0 ]; then
              echo "$reponame"
           fi
