@@ -13,7 +13,7 @@ managingNode00 ansible_host=managingnode00.sandbox.dolv
 
 [research_node]
 #researchNode01 ansible_host=researchnode01.sandbox.dolv
-#researchNode02 ansible_host=researchnode02.sandbox.dolv
+researchNode02 ansible_host=researchnode02.sandbox.dolv
 #researchNode03 ansible_host=researchnode03.sandbox.dolv
 #researchNode04 ansible_host=researchnode04.sandbox.dolv
 #researchNode05 ansible_host=researchnode05.sandbox.dolv
@@ -27,4 +27,5 @@ managingNode00 ansible_host=managingnode00.sandbox.dolv
 researchNode13 ansible_host=researchnode13.sandbox.dolv
 
 [research_node:vars]
+ansible_user=usertr
 #ansible_ssh_common_args="-t "
