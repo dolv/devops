@@ -1,0 +1,24 @@
+---
+- name: Ensure application folder exists.
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ appuser }}"
+    group: root
+  become: True
+  become_method: sudo
+
+- name: Ensure Download folder exists.
+  file:
+    path: "{{ download_dir }}"
+    state: directory
+  become: True
+  become_method: sudo
+  
+- name: Download Zookeeper
+  get_url:
+    url: "{{ zookeeper_url }}"
+    dest: "{{ download_dir }}/{{ zookeeper_artifact }}"
+    owner: "{{ appuser }}"
+    mode: 0774
+

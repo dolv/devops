@@ -1,6 +1,6 @@
 ---
 - name: Configure SSH Rules
-  azure_rm_securitygroup: 
+  azure_rm_securitygroup:
     secret: "{{ azure_secret }}"
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
@@ -51,7 +51,7 @@
     name: "{{ azure_default_security_group }}"
     rules:
       - name: AllowOutboundToAll
-        destination_address_prefix: '*'        
+        destination_address_prefix: '*'
         destination_port_range: '*'
         protocol: '*'
         access: Allow

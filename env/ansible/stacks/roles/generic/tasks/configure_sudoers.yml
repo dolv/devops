@@ -15,4 +15,4 @@
     line: '\1 ALL=(ALL) NOPASSWD:ALL'
   become: true
   become_method: sudo
-  when: waagent.stat.exists | bool 
+  when: waagent.stat.exists | bool

@@ -5,7 +5,7 @@
     tenant: "{{ azure_tenant }}"
     subscription_id: "{{ azure_subscription_id }}"
     client_id: "{{ azure_client_id }}"
-    name: MyDemoNIC 
+    name: MyDemoNIC
     resource_group: "{{ azure_resource_group_name }}"
     virtual_network_name: "{{ azure_vnet_name }}"
     security_group_name: "{{ azure_default_security_group }}"

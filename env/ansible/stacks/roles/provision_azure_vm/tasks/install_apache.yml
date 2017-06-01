@@ -1,6 +1,6 @@
 ---
 - name: Install httpd OS packages
-  package: 
+  package:
     name: httpd
     state: present
   become: yes

@@ -1,6 +1,6 @@
 ---
 - name: Create path for fileshare credentials files
-  file: 
+  file:
     path: "{{ item | dirname }}"
     state: directory
     mode: 0750
@@ -41,6 +41,6 @@
 
 - name: Mount up file shares
   shell: "mount {{ item }}"
-  with_items: "{{ fileshares | map(attribute='local_mount_point') | list }}" 
+  with_items: "{{ fileshares | map(attribute='local_mount_point') | list }}"
   become: true
   become_method: sudo

@@ -1,8 +1,8 @@
 ---
 - name: Place Rscript templates
   template:
-    src: runscript.sh.j2 
+    src: runscript.sh.j2
     dest: "{{ scripts_folder }}/runscript.sh"
     owner: "{{ appuser }}"
-    mode: 0774 
-    
+    mode: 0774
+

@@ -1,0 +1,5 @@
+---
+- name: PROVISION VM PLAYBOOK
+  hosts: all
+  roles:
+    - Zookeeper

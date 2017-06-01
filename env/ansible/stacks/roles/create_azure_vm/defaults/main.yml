@@ -9,7 +9,7 @@ azure_default_vm_name: "MyDemoVM"
 azure_default_storage_name: "newgisticsdemoaccount"
 azure_default_location: "westeurope"
 azure_default_vm_size: "Standard_DS1"
-azure_default_vm_image_id: "/Subscriptions/78ce1ce9-8526-4218-b6c5-0f5afe5e3d03/Providers/Microsoft.Compute/Locations/westeurope/Publishers/OpenLogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.3/Versions/7.3.20161221" 
+azure_default_vm_image_id: "/Subscriptions/78ce1ce9-8526-4218-b6c5-0f5afe5e3d03/Providers/Microsoft.Compute/Locations/westeurope/Publishers/OpenLogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.3/Versions/7.3.20161221"
 
 azure_default_security_group: "MyDemoSG"
 
@@ -18,22 +18,22 @@ azure_default_subnet_name: "MyDemoSubnet"
 azure_default_publicIP_name: "MyDemoPublicIP"
 
 
-VM_config: 
+VM_config:
   resource_group: "{{ azure_resource_group_name }}"
   name: "{{ azure_default_vm_name }}"
   storage_account: '{{ storage_account.name }}'
   vm_size: "{{ azure_default_vm_size }}"
   location: "{{ azure_default_location }}"
   user: azureuser
-  image: 
-    offer: CentOS 
+  image:
+    offer: CentOS
     publisher: OpenLogic
     sku: '7.3'
     version: latest
- 
+
 storage_account:
   name: "{{ azure_default_storage_name }}"
   account_type: Standard_LRS
-  
-azure_ssh_public_key_string: 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBescgstdKeXs9yTZUdEgTr/xmGR6+QrGJpCGvM8PHYvZdUsKpRAAydKhJWSEbLLBqglNMUwVjGEwUPznONPIiFh4WJ8w+bEQwSJkTZ6U4D2bc5IgIrBX9nH/9Ugyr48qmoAhgH5mYejIi0ZqvONlC9ZcwoKwItyAPH7AJ+n5uA4Q==' 
+
+azure_ssh_public_key_string: 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBescgstdKeXs9yTZUdEgTr/xmGR6+QrGJpCGvM8PHYvZdUsKpRAAydKhJWSEbLLBqglNMUwVjGEwUPznONPIiFh4WJ8w+bEQwSJkTZ6U4D2bc5IgIrBX9nH/9Ugyr48qmoAhgH5mYejIi0ZqvONlC9ZcwoKwItyAPH7AJ+n5uA4Q=='
 

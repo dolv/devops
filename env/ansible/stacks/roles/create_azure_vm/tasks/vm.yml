@@ -15,24 +15,24 @@
     ssh_public_keys:
       - path: "/home/{{ VM_config.user }}/.ssh/authorized_keys"
         key_data: "{{ azure_ssh_public_key_string }}"
-    network_interfaces: MyDemoNIC 
+    network_interfaces: MyDemoNIC
     image:
       offer: CentOS
       publisher: OpenLogic
       sku: '7.1'
       version: latest
   register: vm_creation_results
-  tags: 
+  tags:
     - vm
 
 - name: Register VM public IP address to variable
   set_fact:
     timestamp: "{{ lookup('pipe', 'date +%s_%N') }}"
-    vm_publicIP: "{{ (vm_creation_results | json_query('ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[*].properties.ipConfigurations[*].properties.publicIPAddress.properties.ipAddress'))[0][0] }}" 
+    vm_publicIP: "{{ (vm_creation_results | json_query('ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[*].properties.ipConfigurations[*].properties.publicIPAddress.properties.ipAddress'))[0][0] }}"
   tags:
     - vm
 
-- name: "Create temp inventoory directory"  
+- name: "Create temp inventoory directory"
   file:
     path: "/tmp/{{ timestamp }}_Azure_VM"
     state: directory
@@ -41,7 +41,7 @@
     - inventory_file
 
 - name: Create inventory file for newly created VM
-  template: 
+  template:
     src: inventory.j2
     dest: "/tmp/{{ timestamp }}_Azure_VM/web-server"
     mode: 0644

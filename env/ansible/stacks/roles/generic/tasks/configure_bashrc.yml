@@ -4,24 +4,24 @@
     path: /etc/bashrc
     block: |
       get_repo_name() {
-          reponame=$(basename $(git rev-parse --show-toplevel 2> /dev/null) 2> /dev/null) 
+          reponame=$(basename $(git rev-parse --show-toplevel 2> /dev/null) 2> /dev/null)
           if [ $? -eq 0 ]; then
              echo "$reponame"
           fi
       unset reponame
       }
-      
+
       parse_git_branch() {
          git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-      }      
-      
+      }
+
       if [ "$PS1" ]; then
          if [ $EUID -ne 0 ]; then
-            PS1="{{ regular_user_PS1 }}" 
+            PS1="{{ regular_user_PS1 }}"
          else
-            PS1="{{ root_user_PS1 }}" 
+            PS1="{{ root_user_PS1 }}"
          fi
       fi
   become: true
   become_method: sudo
-     
+
