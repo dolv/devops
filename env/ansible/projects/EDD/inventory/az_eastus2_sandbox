@@ -7,7 +7,7 @@ eastus2_sandbox
 [eastus2_sandbox:children]
 managing_node
 research_node
-zookeeper_node
+zookeeper_cluster
 
 [eastus2_sandbox:vars]
 ansible_user=usertr
@@ -33,7 +33,7 @@ researchNode13 ansible_host=researchnode13.sandbox.dolv
 [research_node:vars]
 #ansible_ssh_common_args="-t "
 
-[zookeeper_node]
-zookeeper01 ansible_host=researchnode11.sandbox.dolv
-zookeeper02 ansible_host=researchnode12.sandbox.dolv
-zookeeper03 ansible_host=researchnode13.sandbox.dolv
+[zookeeper_cluster]
+zookeeper01 ansible_host=researchnode11.sandbox.dolv myid=1
+zookeeper02 ansible_host=researchnode12.sandbox.dolv myid=2
+zookeeper03 ansible_host=researchnode13.sandbox.dolv myid=3

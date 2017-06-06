@@ -4,10 +4,19 @@
     path: "{{ zookeeper_dir }}"
     state: absent
  
-- name: Create Zookeeper folder.
+- name: Create Zookeeper folders.
   file:
-    path: "{{ zookeeper_dir }}"
+    path: "{{ item }}"
     state: directory
+    recurse: yes
+  with_items:
+    - "{{ zookeeper_dir }}"
+    - "{{ backups_dir }}"
+    - "{{ zookeeper_logsDir }}"
+    - "{{ zookeeper_dataDir }}"  
+    - "{{ zookeeper_confBackup_Dir }}"
+
+- include: backup_Zookeeper_config.yml
 
 - name: Unpack Zookeeper artifact.
   unarchive:

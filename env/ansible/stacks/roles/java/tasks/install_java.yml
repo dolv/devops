@@ -30,11 +30,22 @@
     state: link
     force: yes
 
+- name: Remove JAVA_HOME and PATH from ~/.bashrc
+  lineinfile:
+    path: ~/.bashrc
+    regexp: "{{ item }}"
+    state: absent
+  with_items:
+    - "^export JAVA_HOME"
+    - "^export PATH"
+  when: add_user_env_vars
+
+
 - name: Add JAVA_HOME to PATH
   lineinfile:
     path: ~/.bashrc
     line: "{{ item }}"
   with_items:
-    - "export JAVA_HOME={{ java_dir }}"
-    - "export PATH=$PATH:$JAVA_HOME/bin"
+    - "export JAVA_HOME={{ java_dir_link }}"
+    - "export PATH=$PATH:{{ java_dir_link }}/bin"
   when: add_user_env_vars

@@ -14,13 +14,17 @@
     - install_packages
 
 - include: download_Zookeeper.yml
-  tags: download_zookeeper
+  tags:
+    - download_zookeeper
+    - install_zookeeper
 
 - include: install_Zookeeper.yml
   tags: install_zookeeper
 
-# - include: configure_Zookeeper.yml
-#   tags:
-#     - install_zookeeper
-#     - configure_zookeeper
+- include: configure_Zookeeper.yml
+  tags:
+    - configure_zookeeper
 
+- include: start_Zookeeper.yml
+  tags:
+    - start_zookeeper

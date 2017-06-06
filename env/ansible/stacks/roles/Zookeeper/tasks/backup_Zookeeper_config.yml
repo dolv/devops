@@ -1,0 +1,12 @@
+---
+- name: Check if Zookeeper config file exists
+  stat:
+    path: "{{ zookeeper_confFile }}"
+  register: zcfg
+
+- name: Backup Zookeeper config file.
+  copy:
+    src: "{{ zookeeper_confFile }}"
+    dest: "{{ zookeeper_confBackup_Dir }}/zoo.cfg.{{ ansible_date_time.iso8601_micro }}"
+    remote_src: True
+  when: zcfg.stat.exists

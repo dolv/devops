@@ -1,0 +1,38 @@
+---
+- include: backup_Zookeeper_config.yml
+
+- name: Push configuration file to remote server.
+  template:
+    src: zoo.cfg.j2
+    dest: "{{ zookeeper_confFile }}"
+    mode: 0664
+
+- name: Push customized zkEnv.sh to the remote server.
+  template:
+    src: zkEnv.sh.j2
+    dest: "{{ zookeeper_dir }}/bin/zkEnv.sh"
+    mode: 0664
+
+- name: Push myid file to remote server.
+  template:
+    src: myid.j2
+    dest: "{{ zookeeper_dataDir }}/myid"
+    mode: 0664
+  when: zookeeper_clustered  
+
+- name: Check if config backups exist
+  find:
+    paths: "{{ zookeeper_confBackup_Dir }}"
+    file_type: file
+  register: cfgBackups
+
+- name: Get config difference with last config backup
+  command: "diff -y -t --suppress-common-lines {{ cfgBackups.files[-1].path }} {{ zookeeper_confFile }}"
+  when: cfgBackups.matched > 0
+  register: cfgDifference
+  ignore_errors: True
+
+- name: Display config difference with last config backup
+  debug:
+    msg: "{{ cfgDifference.stdout }}"
+  when: cfgBackups.matched > 0

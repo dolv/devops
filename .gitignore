@@ -1,3 +1,4 @@
 *.swp
 *.retry
 env/ansible/projects/EDD/azure/fileshares/*
+*test.yml

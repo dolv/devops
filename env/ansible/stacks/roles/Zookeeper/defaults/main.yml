@@ -7,8 +7,10 @@ packages_os:
   - screen
   - htop
   - libselinux-python
+  - nmap-ncat
 
 app_dir: /apps
+backups_dir: "{{ app_dir }}/backups"
 appuser: usertr
 
 download_dir: "{{ app_dir }}/downloads"
@@ -22,10 +24,24 @@ zookeeper_artifactId: zookeeper
 zookeeper_version: 3.4.10
 zookeeper_extension: tar.gz
 
-
 zookeeper_artifact: "{{ zookeeper_artifactId }}-{{zookeeper_version}}.{{ zookeeper_extension }}"
 zookeeper_url: "{{ zookeeper_repo_url }}{{ zookeeper_groupId }}/{{ zookeeper_artifactId }}/{{ zookeeper_version }}/{{ zookeeper_artifact }}"
 
-
 zookeeper_dir_link: "{{ app_dir }}/zookeeper"
 zookeeper_dir: "{{ app_dir }}/zookeeper-{{ zookeeper_version }}"
+zookeeper_logsDir: "{{ zookeeper_dir }}/logs"
+zookeeper_confBackup_Dir: "{{ backups_dir }}/zookeeper_configs"
+zookeeper_confDir: "{{ zookeeper_dir }}/conf"
+zookeeper_confFile: "{{ zookeeper_confDir }}/zoo.cfg"
+
+zookeeper_clustered: False
+
+zookeeper_tickTime: 2000
+zookeeper_initLimit: 10
+zookeeper_syncLimit: 5
+zookeeper_dataDir: "{{ app_dir }}/data/zookeeper_dataDir"
+zookeeper_clientPort: 2181
+zookeeper_leaderPort: 2182
+zookeeper_electionsPort: 2183
+
+zookeeper_log4g_prop: "DEBUG,ROLLINGFILE"

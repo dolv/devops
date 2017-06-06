@@ -1,17 +1,17 @@
-- include: ../../generic/tasks/configure_bashrc.yml
-  tags:
-    - initial_os_proviosion
-    - configure_bashrc
+# - include: ../../generic/tasks/configure_bashrc.yml
+#   tags:
+#     - initial_os_proviosion
+#     - configure_bashrc
 
-- include: ../../generic/tasks/configure_sudoers.yml
-  tags:
-    - initial_os_proviosion
-    - configure_sudoers
+# - include: ../../generic/tasks/configure_sudoers.yml
+#   tags:
+#     - initial_os_proviosion
+#     - configure_sudoers
 
-- include: ../../generic/tasks/install_packages.yml
-  tags:
-    - initial_os_proviosion
-    - install_packages
+# - include: ../../generic/tasks/install_packages.yml
+#   tags:
+#     - initial_os_proviosion
+#     - install_packages
 
 - include: download_java.yml
   tags: 
