@@ -1,0 +1,35 @@
+---
+regular_user_PS1: "\\[\\033[36m\\]\\t \\[\\033[32m\\]\\u\\[\\033[32m\\]@\\H\\[\\033[94m\\]:\\w\\[\\033[39m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+root_user_PS1: "\\[\\033[36m\\]\\t \\[\\e[31m\\]\\u@\\H\\[\\e[94m\\]:\\w\\[\\e[91m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+
+packages_os:
+  - epel-release
+  - screen
+  - htop
+  - libselinux-python
+
+app_dir: /apps
+tools_dir: "{{ app_dir }}/tools"
+appuser: usertr
+
+download_dir: "{{ app_dir }}/downloads"
+
+java_repo_url: http://nexus.sandbox.dolv:8081/repository/thirdparty/
+java_repo_user: anonymous
+java_repo_pass: changeme
+java_reponame: thirdparty
+java_groupId: com.oracle.java-SE
+java_artifactId: jdk
+java_version: 8u131
+java_classifier: linux-x64
+java_extension: tar.gz
+
+remove_existing_java: False
+add_user_env_vars: False
+
+
+java_artifact: "{{ java_artifactId }}-{{java_version}}-{{ java_classifier }}.{{ java_extension }}"
+java_url: "{{ java_repo_url }}{{ java_groupId | replace('.','/') }}/{{ java_artifactId }}/{{ java_version }}/{{ java_artifact }}"
+
+java_dir_link: "{{ app_dir }}/java"
+java_dir: "{{ app_dir }}/java-{{ java_version }}"

@@ -1,0 +1,40 @@
+---
+- name: Ensure tools dir exists.
+  file:
+    path: "{{ tools_dir }}"
+    state: directory
+
+- name: Get the path from link
+  command: readlink {{ java_dir_link }}
+  register: link_output 
+  when: remove_existing_java
+
+- name: Remove Java folder in order to recreate
+  file:
+    path: "{{ link_output.stdout }}"
+    state: absent
+  when: remove_existing_java
+
+- name: Unpack java artifact.
+  unarchive:
+    src: "{{ download_dir }}/{{ java_artifact }}"
+    dest: "{{ tools_dir }}/"
+    remote_src: True
+    list_files: yes
+  register: unpack_out
+
+- name: Create a simlink to the current verion of java folder
+  file:
+    src: "{{ tools_dir }}/{{ unpack_out.files[0] }}"
+    path: "{{ java_dir_link }}"
+    state: link
+    force: yes
+
+- name: Add JAVA_HOME to PATH
+  lineinfile:
+    path: ~/.bashrc
+    line: "{{ item }}"
+  with_items:
+    - "export JAVA_HOME={{ java_dir }}"
+    - "export PATH=$PATH:$JAVA_HOME/bin"
+  when: add_user_env_vars

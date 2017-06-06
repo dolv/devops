@@ -13,20 +13,19 @@ appuser: usertr
 
 download_dir: "{{ app_dir }}/downloads"
 
+zookeeper_repo_url: http://nexus.sandbox.dolv:8081/repository/thirdparty/
+zookeeper_repo_user: anonymous
+zookeeper_repo_pass: changeme
+zookeeper_reponame: thirdparty
+zookeeper_groupId: org.apache
+zookeeper_artifactId: zookeeper
 zookeeper_version: 3.4.10
-zookeeper_artifact: "zookeeper-{{zookeeper_version}}.tar.gz"
-zookeeper_url: "http://www.us.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/{{ zookeeper_artifact }}"
+zookeeper_extension: tar.gz
+
+
+zookeeper_artifact: "{{ zookeeper_artifactId }}-{{zookeeper_version}}.{{ zookeeper_extension }}"
+zookeeper_url: "{{ zookeeper_repo_url }}{{ zookeeper_groupId }}/{{ zookeeper_artifactId }}/{{ zookeeper_version }}/{{ zookeeper_artifact }}"
 
 
 zookeeper_dir_link: "{{ app_dir }}/zookeeper"
 zookeeper_dir: "{{ app_dir }}/zookeeper-{{ zookeeper_version }}"
-
-fileshares:
-  - remote_share: "//rtrainingmodels.file.core.windows.net/modelshare"
-    local_mount_point: "{{ scripts_folder }}/models"
-    fstype: "cifs"
-    mount_options: "credentials=/home/{{ appuser }}/.cred/modelshare,rw,serverino,vers=3.0,file_mode=0777,dir_mode=0777"
-    dump_frequency: 0
-    fsck_order: 0
-    share_credentials_dst_location: "/home/{{ appuser }}/.cred/modelshare"
-    share_credentials_src_location: modelshare
