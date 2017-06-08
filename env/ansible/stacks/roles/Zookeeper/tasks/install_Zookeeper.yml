@@ -1,8 +1,38 @@
 ---
-- name: Remove Zookeeper folder in order to recreate
+- include: backup_Zookeeper_config.yml
+  when: not from_scratch
+
+- name: Remove Zookeeper folders in order to recreate
   file:
-    path: "{{ zookeeper_dir }}"
+    path: "{{ zookeeper_dir }}/{{ item }}"
     state: absent
+  with_items:
+    - "bin"
+    - "conf"  
+    - "contrib"
+    - "lib"
+    - "recipies"
+    - "src"
+  when: not from_scratch  
+  
+- name: Empty zookeeper folder contents
+  shell: "rm {{ zookeeper_dir }}/*"
+  args: 
+    chdir: "{{ zookeeper_dir }}"
+  when:
+    - not from_scratch  
+    - zookeeper_dir | length > 5
+
+- name: Remove zookeeper logs, data & backup folders
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ zookeeper_dir }}"
+    - "{{ zookeeper_logsDir }}"
+    - "{{ zookeeper_dataDir }}"  
+    - "{{ zookeeper_confBackup_Dir }}"
+  when: from_scratch
  
 - name: Create Zookeeper folders.
   file:
@@ -15,8 +45,7 @@
     - "{{ zookeeper_logsDir }}"
     - "{{ zookeeper_dataDir }}"  
     - "{{ zookeeper_confBackup_Dir }}"
-
-- include: backup_Zookeeper_config.yml
+  when: from_scratch
 
 - name: Unpack Zookeeper artifact.
   unarchive:

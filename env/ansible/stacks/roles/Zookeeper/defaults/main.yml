@@ -12,6 +12,7 @@ packages_os:
 app_dir: /apps
 backups_dir: "{{ app_dir }}/backups"
 appuser: usertr
+from_scratch: False
 
 download_dir: "{{ app_dir }}/downloads"
 
@@ -21,7 +22,7 @@ zookeeper_repo_pass: changeme
 zookeeper_reponame: thirdparty
 zookeeper_groupId: org.apache
 zookeeper_artifactId: zookeeper
-zookeeper_version: 3.4.10
+zookeeper_version: 3.4.9
 zookeeper_extension: tar.gz
 
 zookeeper_artifact: "{{ zookeeper_artifactId }}-{{zookeeper_version}}.{{ zookeeper_extension }}"
@@ -33,6 +34,10 @@ zookeeper_logsDir: "{{ zookeeper_dir }}/logs"
 zookeeper_confBackup_Dir: "{{ backups_dir }}/zookeeper_configs"
 zookeeper_confDir: "{{ zookeeper_dir }}/conf"
 zookeeper_confFile: "{{ zookeeper_confDir }}/zoo.cfg"
+zookeeper_start_script_name: "zkServer.sh"
+zookeeper_start_script_params: "start"
+zookeeper_stop_script_name: "zkServer.sh"
+zookeeper_stop_script_params: "stop"
 
 zookeeper_clustered: False
 

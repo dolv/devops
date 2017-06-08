@@ -18,13 +18,20 @@
     - download_zookeeper
     - install_zookeeper
 
+- include: stop_Zookeeper.yml
+  tags:
+    - stop_zookeeper
+    - install_zookeeper
+
 - include: install_Zookeeper.yml
   tags: install_zookeeper
 
 - include: configure_Zookeeper.yml
   tags:
     - configure_zookeeper
+    - install_zookeeper
 
 - include: start_Zookeeper.yml
   tags:
     - start_zookeeper
+    - install_zookeeper

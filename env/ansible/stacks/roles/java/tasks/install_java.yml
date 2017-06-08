@@ -7,25 +7,39 @@
 - name: Get the path from link
   command: readlink {{ java_dir_link }}
   register: link_output 
-  when: remove_existing_java
+  when: from_scratch
 
 - name: Remove Java folder in order to recreate
   file:
     path: "{{ link_output.stdout }}"
     state: absent
-  when: remove_existing_java
+  when: from_scratch
+
+- name: Ensure java dir exists.
+  file:
+    path: "{{ java_dir }}"
+    state: directory  
 
 - name: Unpack java artifact.
   unarchive:
     src: "{{ download_dir }}/{{ java_artifact }}"
-    dest: "{{ tools_dir }}/"
+    dest: "{{ download_dir }}/"
     remote_src: True
     list_files: yes
   register: unpack_out
 
+- name: "Move java to the {{ java_dir }}"
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ download_dir }}"
+  with_items:
+    - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ java_dir }}/"
+    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"  
+  when: java_dir|length > 5
+
 - name: Create a simlink to the current verion of java folder
   file:
-    src: "{{ tools_dir }}/{{ unpack_out.files[0] }}"
+    src: "{{ java_dir }}"
     path: "{{ java_dir_link }}"
     state: link
     force: yes

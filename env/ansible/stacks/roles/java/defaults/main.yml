@@ -6,6 +6,8 @@ app_dir: /apps
 tools_dir: "{{ app_dir }}/tools"
 appuser: usertr
 
+from_scratch: False
+
 download_dir: "{{ app_dir }}/downloads"
 
 java_repo_url: http://nexus.sandbox.dolv:8081/repository/thirdparty/
@@ -18,12 +20,10 @@ java_version: 8u131
 java_classifier: linux-x64
 java_extension: tar.gz
 
-remove_existing_java: False
 add_user_env_vars: False
-
 
 java_artifact: "{{ java_artifactId }}-{{java_version}}-{{ java_classifier }}.{{ java_extension }}"
 java_url: "{{ java_repo_url }}{{ java_groupId | replace('.','/') }}/{{ java_artifactId }}/{{ java_version }}/{{ java_artifact }}"
 
 java_dir_link: "{{ app_dir }}/java"
-java_dir: "{{ app_dir }}/java-{{ java_version }}"
+java_dir: "{{ tools_dir }}/java-{{ java_version }}"

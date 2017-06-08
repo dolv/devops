@@ -23,4 +23,3 @@
     mode: 0774
     url_username: "{{ zookeeper_repo_user }}"
     url_password: "{{ zookeeper_repo_pass}}"
-

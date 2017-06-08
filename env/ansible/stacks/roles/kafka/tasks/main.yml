@@ -2,10 +2,16 @@
   tags:
     - initial_os_proviosion
     - install_packages
+    - install_kafka
 
 - include: download_kafka.yml
   tags:
     - download_kafka
+    - install_kafka
+
+- include: stop_kafka.yml
+  tags:
+    - stop_kafka
     - install_kafka
 
 - include: install_kafka.yml
@@ -14,7 +20,9 @@
 - include: configure_kafka.yml
   tags:
     - configure_kafka
-#
-#- include: start_kafka.yml
-#  tags:
-#    - start_kafka
+    - install_kafka
+
+- include: start_kafka.yml
+  tags:
+    - start_kafka
+    - install_kafka

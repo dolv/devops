@@ -2,7 +2,7 @@
 - name: PROVISION VM PLAYBOOK
   hosts: all
 
-  roles:
+  roles:    
     - java
     - Zookeeper
     - kafka

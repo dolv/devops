@@ -1,5 +1,5 @@
 - name: Start Zookeeper
-  command: "./zkServer.sh start"
+  command: "./{{ zookeeper_start_script_name }} {{ zookeeper_start_script_params }}"
   args:
     chdir: "{{ zookeeper_dir }}/bin/"
   environment:
@@ -13,3 +13,11 @@
     timeout: 30
     sleep: 5
     connect_timeout: 10
+
+- name: Check if Zookeeper is running using native means
+  shell: "./{{ zookeeper_stop_script_name }} status"
+  args:
+    chdir: "{{ zookeeper_dir }}/bin/"
+  environment:
+    JAVA_HOME: "{{ java_dir_link }}"
+    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"    

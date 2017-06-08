@@ -1,8 +1,35 @@
 ---
-- name: Remove kafka folder in order to recreate
+- include: backup_kafka_config.yml
+  when: not from_scratch
+
+- name: Remove kafka folders in order to recreate
   file:
-    path: "{{ kafka_dir }}"
+    path: "{{ kafka_dir }}/{{ item }}"
     state: absent
+  with_items:
+    - "bin"
+    - "config"  
+    - "libs"
+    - "site-docs"
+  when: not from_scratch  
+
+- name: Empty kafka folder contents
+  shell: "rm {{ kafka_dir }}/*"
+  args: 
+    chdir: "{{ kafka_dir }}"
+  when:
+    - not from_scratch  
+    - kafka_dir | length > 5
+
+- name: Remove kafka logs, data & backup folders
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ kafka_dir }}"
+    - "{{ kafka_logsDir }}"
+    - "{{ kafka_confBackup_Dir }}"
+  when: from_scratch
  
 - name: Create kafka folders.
   file:
@@ -13,10 +40,8 @@
     - "{{ kafka_dir }}"
     - "{{ backups_dir }}"
     - "{{ kafka_logsDir }}"
-    - "{{ kafka_dataDir }}"  
     - "{{ kafka_confBackup_Dir }}"
-
-- include: backup_kafka_config.yml
+  when: from_scratch
 
 - name: Unpack kafka artifact.
   unarchive:
@@ -34,7 +59,6 @@
     - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ kafka_dir }}/"
     - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"  
   when: kafka_dir|length > 5
-
 
 - name: Create a simlink to the current verion of kafka folder
   file:
