@@ -16,7 +16,6 @@
 #  when: not script.stat.exists
   register: service_check
 
-- debug: var=service_check.stdout
 - name: Stop Kafka
   command: "./{{ kafka_stop_script_name }}"
   args:
@@ -31,7 +30,7 @@
 - name: "Stop Kafka forced (the process which owns {{ listener_port }} port)"
   shell: "kill -9 $(netstat -pln 2> /dev/null | grep {{ listener_port }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p')"
   when:
-    - not script.stat.exists 
+    - not script.stat.exists or from_scratch
     - service_check.stdout == 'RUNNING'
 
 - name: Wait for the Kafka listener port to become unavailable
@@ -39,6 +38,6 @@
     port: "{{ listener_port }}"
     state: stopped
     delay: 3
-    timeout: 30
+    timeout: 120
     sleep: 5
     connect_timeout: 10

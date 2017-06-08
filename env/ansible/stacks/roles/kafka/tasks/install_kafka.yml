@@ -1,5 +1,7 @@
 ---
 - include: backup_kafka_config.yml
+  with_items: 
+    - "{{ kafka_configs }}"
   when: not from_scratch
 
 - name: Remove kafka folders in order to recreate
