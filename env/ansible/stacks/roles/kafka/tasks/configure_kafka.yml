@@ -1,0 +1,37 @@
+---
+- include: backup_kafka_config.yml kafka_confFile={{ item }}
+  with_items: 
+    - "{{ kafka_configs }}"
+
+- name: Push configuration files to remote server.
+  template:
+    src: "{{ item.split('/')[-1] }}.j2"
+    dest: "{{ item }}"
+    mode: 0664
+  with_items: 
+    - "{{ kafka_configs }}"
+    
+
+- name: Check if config backups exist
+  find:
+    paths: "{{ kafka_confBackup_Dir }}"
+    file_type: file
+    patterns: "{{ item.split('/')[-1] }}*"
+  register: srch
+  with_items:
+    - "{{ kafka_configs }}"
+
+- name: Get config difference with last config backup
+  shell: "diff -y -t --suppress-common-lines {{ srch.results[item.0].files[-1].path }} {{ item.1 }} || exit 0"
+  when: srch.results[item.0].matched  > 0
+  register: cfgDifference
+  ignore_errors: True
+  with_indexed_items:
+    - "{{ kafka_configs }}"
+
+- name: Display config difference with last config backup
+  debug:
+    msg: "{{ item }}"
+  when: item|length > 0
+  with_items:
+    - "{{ cfgDifference | json_query('results[*].stdout') }}"

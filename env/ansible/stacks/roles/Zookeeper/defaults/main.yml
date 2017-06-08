@@ -25,7 +25,7 @@ zookeeper_version: 3.4.10
 zookeeper_extension: tar.gz
 
 zookeeper_artifact: "{{ zookeeper_artifactId }}-{{zookeeper_version}}.{{ zookeeper_extension }}"
-zookeeper_url: "{{ zookeeper_repo_url }}{{ zookeeper_groupId }}/{{ zookeeper_artifactId }}/{{ zookeeper_version }}/{{ zookeeper_artifact }}"
+zookeeper_url: "{{ zookeeper_repo_url }}{{ zookeeper_groupId | replace('.','/') }}/{{ zookeeper_artifactId }}/{{ zookeeper_version }}/{{ zookeeper_artifact }}"
 
 zookeeper_dir_link: "{{ app_dir }}/zookeeper"
 zookeeper_dir: "{{ app_dir }}/zookeeper-{{ zookeeper_version }}"

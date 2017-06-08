@@ -7,6 +7,6 @@
 - name: Backup Zookeeper config file.
   copy:
     src: "{{ zookeeper_confFile }}"
-    dest: "{{ zookeeper_confBackup_Dir }}/zoo.cfg.{{ ansible_date_time.iso8601_micro }}"
+    dest: "{{ zookeeper_confBackup_Dir }}/{{ zookeeper_confFile.split('/')[-1] }}.{{ ansible_date_time.iso8601_micro }}"
     remote_src: True
   when: zcfg.stat.exists

@@ -1,0 +1,12 @@
+---
+- name: "Check if kafka config file {{kafka_confFile.split('/')[-1]}} exists"
+  stat:
+    path: "{{ kafka_confFile }}"
+  register: kcfg
+
+- name: "Backup kafka config file {{kafka_confFile.split('/')[-1]}}"
+  copy:
+    src: "{{ kafka_confFile }}"
+    dest: "{{ kafka_confBackup_Dir }}/{{ kafka_confFile.split('/')[-1] }}.{{ ansible_date_time.iso8601_micro }}"
+    remote_src: True
+  when: kcfg.stat.exists

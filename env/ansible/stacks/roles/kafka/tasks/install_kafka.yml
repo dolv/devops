@@ -1,0 +1,44 @@
+---
+- name: Remove kafka folder in order to recreate
+  file:
+    path: "{{ kafka_dir }}"
+    state: absent
+ 
+- name: Create kafka folders.
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ kafka_dir }}"
+    - "{{ backups_dir }}"
+    - "{{ kafka_logsDir }}"
+    - "{{ kafka_dataDir }}"  
+    - "{{ kafka_confBackup_Dir }}"
+
+- include: backup_kafka_config.yml
+
+- name: Unpack kafka artifact.
+  unarchive:
+    src: "{{ download_dir }}/{{ kafka_artifact }}"
+    dest: "{{ download_dir }}/"
+    remote_src: True
+    list_files: yes
+  register: unpack_out
+
+- name: "Move kafka to the {{ kafka_dir }}"
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ download_dir }}"
+  with_items:
+    - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ kafka_dir }}/"
+    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"  
+  when: kafka_dir|length > 5
+
+
+- name: Create a simlink to the current verion of kafka folder
+  file:
+    src: "{{ kafka_dir }}"
+    path: "{{ kafka_dir_link }}"
+    state: link
+    force: yes

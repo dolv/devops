@@ -1,0 +1,20 @@
+- include: ../../generic/tasks/install_packages.yml
+  tags:
+    - initial_os_proviosion
+    - install_packages
+
+- include: download_kafka.yml
+  tags:
+    - download_kafka
+    - install_kafka
+
+- include: install_kafka.yml
+  tags: install_kafka
+
+- include: configure_kafka.yml
+  tags:
+    - configure_kafka
+#
+#- include: start_kafka.yml
+#  tags:
+#    - start_kafka

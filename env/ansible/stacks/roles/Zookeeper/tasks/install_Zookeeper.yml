@@ -21,10 +21,19 @@
 - name: Unpack Zookeeper artifact.
   unarchive:
     src: "{{ download_dir }}/{{ zookeeper_artifact }}"
-    dest: "{{ app_dir }}/"
+    dest: "{{ download_dir }}/"
     remote_src: True
     list_files: yes
   register: unpack_out
+
+- name: "Move zookeeper to the {{ zookeeper_dir }}"
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ download_dir }}"
+  with_items:
+    - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ zookeeper_dir }}/"
+    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"
+  when: zookeeper_dir|length > 5
 
 - name: Create a simlink to the current verion of zookeeper folder
   file:

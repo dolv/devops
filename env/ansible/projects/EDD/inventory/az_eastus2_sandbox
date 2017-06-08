@@ -8,6 +8,7 @@ eastus2_sandbox
 managing_node
 research_node
 zookeeper_cluster
+kafka_cluster
 
 [eastus2_sandbox:vars]
 ansible_user=usertr
@@ -37,3 +38,8 @@ researchNode13 ansible_host=researchnode13.sandbox.dolv
 zookeeper01 ansible_host=researchnode11.sandbox.dolv myid=1
 zookeeper02 ansible_host=researchnode12.sandbox.dolv myid=2
 zookeeper03 ansible_host=researchnode13.sandbox.dolv myid=3
+
+[kafka_cluster]
+kafka01 ansible_host=researchnode11.sandbox.dolv brokerId=0
+kafka02 ansible_host=researchnode12.sandbox.dolv brokerId=1
+kafka03 ansible_host=researchnode13.sandbox.dolv brokerId=2
