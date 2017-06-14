@@ -1,0 +1,133 @@
+---
+- name: Test distribution
+  assert:
+    that: ansible_os_family == "RedHat"
+
+- include: roles/generic/tasks/install_packages.yml
+  tags:
+    - install_packages
+
+- name: Create needed folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ appuser }}"
+  with_items:
+    - "{{ download_dir }}"
+    - "{{ tools_dir }}"      
+    - "{{ build_dir }}"  
+    - "{{ opencpu_rpmbuild_dir }}"
+    - "{{ opencpu_rpmbuild_sources_dir }}"
+    - "{{ opencpu_rpmbuild_specs_dir }}"
+  tags:
+    - create_folders
+
+
+- name: Get the rapache sources
+  get_url:
+    url: "{{ rapache_source_url }}"
+    dest: "{{ download_dir }}/{{ rapache_source_local_filename }}"
+    mode: 0440
+  tags:
+    - download_rapache_sources
+ 
+- name: Unarchive rapache spec
+  shell: "tar xzvf {{ rapache_source_local_filename }} {{ rapache_spec_path_in_archive }} --strip-components {{ rapache_spec_path_in_archive.split('/') | length - 1 }}"
+  args:
+    chdir: "{{ download_dir }}/"
+  tags:
+    - build_rapache
+
+- name: Get archive contents
+  shell: "tar tf {{ rapache_source_local_filename }}"
+  args:
+    chdir: "{{ download_dir }}/"
+  register: rapache_archive_contents
+  tags:
+    - build_rapache
+
+- name: Move files to build folder
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ download_dir }}/"
+  with_items:
+    - "mv -f {{ rapache_source_local_filename }} {{ opencpu_rpmbuild_sources_dir }}/{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }}"
+    - "mv -f {{ rapache_spec_path_in_archive.split('/')[-1] }} {{ opencpu_rpmbuild_specs_dir }}"
+  tags:
+    - build_rapache
+
+- name: Builds 'rapache' rpm
+  shell: "rpmbuild --define '_topdir {{ opencpu_rpmbuild_dir }}' -ba {{ opencpu_rpmbuild_specs_dir }}/{{ rapache_spec_path_in_archive.split('/')[-1] }}"
+  args:
+    chdir: "{{ opencpu_rpmbuild_dir }}"
+  tags:
+    - build_rapache
+
+- name: Create rapache artifact from builded packages
+  archive:
+    path:
+        - "{{ rapache_rpmbuild_dir }}/RPMS/x86_64"
+    dest: "{{ download_dir }}/rpms-{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }}"
+    format: "{{ rapache_source_packaging.split('.')[-1] }}"
+  tags:
+    - package_rapache
+
+- name: "Deploy {{ download_dir }}/rpms-{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }} to repository"
+  shell: "mvn -q deploy:deploy-file -Dfile={{ download_dir }}/rpms-{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }} -Durl={{ rapache_repo_url }} -DrepositoryId={{ rapache_repositoryId }} -DgroupId={{ rapache_groupId }} -DartifactId={{ rapache_artifactId }} -Dversion={{ rapache_version }} -Dpackaging={{ rapache_source_packaging }}" 
+  tags:
+    - deploy_rapachy
+          
+- name: Get the opencpu sources
+  get_url:
+    url: "{{ opencpu_source_url }}"
+    dest: "{{ download_dir }}/{{ opencpu_source_local_filename }}"
+    mode: 0440
+  tags:
+    - download_opencpu_sources
+
+- name: Unarchive opencpu spec
+  shell: "tar xzvf {{ opencpu_source_local_filename }} {{ opencpu_spec_path_in_archive }} --strip-components {{ opencpu_spec_path_in_archive.split('/') | length - 1 }}"
+  args:
+    chdir: "{{ download_dir }}/"
+  tags:
+    - build_opencpu
+
+- name: Get archive contents
+  shell: "tar tf {{ opencpu_source_local_filename }}"
+  args:
+    chdir: "{{ download_dir }}/"
+  register: opencpu_archive_contents
+  tags:
+    - build_opencpu
+
+- name: Move files to build folder
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ download_dir }}/"
+  with_items:
+    - "mv -f {{ opencpu_source_local_filename }} {{ opencpu_rpmbuild_sources_dir }}/{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }}"
+    - "mv -f {{ opencpu_spec_path_in_archive.split('/')[-1] }} {{ opencpu_rpmbuild_specs_dir }}"
+  tags:
+    - build_opencpu
+
+- name: Builds 'opencpu' rpm
+  shell: "rpmbuild --define '_topdir {{ opencpu_rpmbuild_dir }}' -ba {{ opencpu_rpmbuild_specs_dir }}/{{ opencpu_spec_path_in_archive.split('/')[-1] }}"
+  args:
+    chdir: "{{ opencpu_rpmbuild_dir }}"
+  tags:
+    - build_opencpu
+
+- name: Create an artifact from builded packages
+  archive:
+    path:
+        - "{{ opencpu_rpmbuild_dir }}/RPMS/x86_64"
+    dest: "{{ download_dir }}/rpms-{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }}" 
+    format: "{{ opencpu_source_packaging.split('.')[-1] }}"
+  tags:
+    - package_opencpu
+
+- name: "Deploy  {{ download_dir }}/rpms-{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }} to repository"
+  shell: "mvn -q deploy:deploy-file -Dfile={{ download_dir }}/rpms-{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }} -Durl={{ opencpu_repo_url }} -DrepositoryId={{ opencpu_repositoryId }} -DgroupId={{ opencpu_groupId }} -DartifactId={{ opencpu_artifactId }} -Dversion={{ opencpu_version }} -Dpackaging={{ opencpu_source_packaging }}"
+  tags:
+    - deploy_opencpu
+

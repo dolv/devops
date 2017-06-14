@@ -1,0 +1,92 @@
+regular_user_PS1: "\\[\\033[36m\\]\\t \\[\\033[32m\\]\\u\\[\\033[32m\\]@\\H\\[\\033[94m\\]:\\w\\[\\033[39m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+root_user_PS1: "\\[\\033[36m\\]\\t \\[\\e[31m\\]\\u@\\H\\[\\e[94m\\]:\\w\\[\\e[91m\\]\\n\\\\$\\[$(tput sgr0)\\] "
+
+packages_os:
+  - epel-release
+  - R
+  - rpm-build
+  - make
+  - wget
+  - maven
+  - tar
+  - unzip  
+  - httpd-devel
+  - libapreq2-devel
+  - R-devel
+  - libcurl-devel
+  - protobuf-devel
+  - openssl-devel
+  - libxml2-devel
+  - libicu-devel
+  - libssh2-devel  
+  - screen
+  - htop
+  - MTA
+  - mod_ssl
+
+appuser: usertr
+app_dir: /apps
+scripts_folder: /apps/share
+download_dir: "{{ app_dir }}/downloads"
+tools_dir: "{{ app_dir }}/tools"
+build_dir: "{{ tools_dir }}/builds"
+opencpu_dir: "{{ app_dir }}/opencpu"
+opencpu_rpmbuild_dir: "{{build_dir}}/opencpu/rpmbuild"
+opencpu_rpmbuild_sources_dir: "{{build_dir}}/opencpu/rpmbuild/SOURCES"
+opencpu_rpmbuild_specs_dir: "{{build_dir}}/opencpu/rpmbuild/SPECS"
+
+rapache_rpmbuild_dir: "{{ opencpu_rpmbuild_dir }}"
+rapache_rpmbuild_sources_dir: "{{ opencpu_rpmbuild_sources_dir }}"
+rapache_rpmbuild_specs_dir: "{{ opencpu_rpmbuild_specs_dir }}"
+
+
+rapache_source_url: https://github.com/jeffreyhorner/rapache/archive/v1.2.7.tar.gz
+rapache_source_packaging: tar.gz
+rapache_groupId: net.rapache
+rapache_artifactId: rapache
+rapache_version: 1.2.7
+rapache_repositoryId: nexusDeploymentRepo
+rapache_source_local_filename: "{{ rapache_artifactId }}-{{ rapache_version }}.{{ rapache_source_packaging }}"
+rapache_spec_path_in_archive: "{{ rapache_artifactId }}-{{ rapache_version }}/rpm/{{ rapache_artifactId }}.spec"
+
+rapache_repo_url: http://nexus.sandbox.dolv:8081/repository/thirdparty/
+rapache_repo_user: anonymous
+rapache_repo_pass: changeme
+rapache_reponame: thirdparty
+
+opencpu_source_url: https://github.com/opencpu/opencpu-server/archive/v2.0.tar.gz
+opencpu_source_packaging: tar.gz
+opencpu_groupId: org.opencpu
+opencpu_artifactId: opencpu-server
+opencpu_version: 2.0
+opencpu_repositoryId: nexusDeploymentRepo
+opencpu_source_local_filename: "{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_source_packaging }}"
+opencpu_spec_path_in_archive: "{{ opencpu_artifactId }}-{{ opencpu_version }}/rpm/opencpu.spec"
+
+opencpu_repo_url: http://nexus.sandbox.dolv:8081/repository/thirdparty/
+opencpu_repo_user: anonymous
+opencpu_repo_pass: changeme
+opencpu_reponame: thirdparty
+
+Rlibs:
+  - randomForest
+  - doMC
+
+
+fileshares:
+  - remote_share: "//rtrainingmodels.file.core.windows.net/modelshare"
+    local_mount_point: "{{ scripts_folder }}/models"
+    fstype: "cifs"
+    mount_options: "credentials=/home/{{ appuser }}/.cred/modelshare,rw,serverino,vers=3.0,file_mode=0777,dir_mode=0777"
+    dump_frequency: 0
+    fsck_order: 0
+    share_credentials_dst_location: "/home/{{ appuser }}/.cred/modelshare"
+    share_credentials_src_location: modelshare
+
+Rscript_name: "{{ scripts_folder }}/models/TestOnAzure.R"
+threads_number: "{{ ansible_processor_vcpus }}"
+dataset_rows_quantity: 10000
+pass_num: 1
+trees_num: 128
+models_location: "{{ scripts_folder }}/models"
+output_file: "{{ scripts_folder }}/results_$start.txt"

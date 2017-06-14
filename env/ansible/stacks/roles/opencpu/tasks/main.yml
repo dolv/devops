@@ -1,0 +1,4 @@
+---
+- include: build_opencpu_package.yml
+  tags: 
+    - opencpu_build_package

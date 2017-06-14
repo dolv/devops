@@ -5,18 +5,19 @@ azure
 eastus2_sandbox
 
 [eastus2_sandbox:children]
-managing_node
-research_node
+managing_nodes
+research_nodes
 zookeeper_cluster
 kafka_cluster
+opencpu_nodes
 
 [eastus2_sandbox:vars]
 ansible_user=usertr
 
-[managing_node]
+[managing_nodes]
 managingNode00 ansible_host=managingnode00.sandbox.dolv
 
-[research_node]
+[research_nodes]
 #researchNode01 ansible_host=researchnode01.sandbox.dolv
 researchNode02 ansible_host=researchnode02.sandbox.dolv
 #researchNode03 ansible_host=researchnode03.sandbox.dolv
@@ -31,7 +32,7 @@ researchNode02 ansible_host=researchnode02.sandbox.dolv
 #researchNode12 ansible_host=researchnode12.sandbox.dolv
 researchNode13 ansible_host=researchnode13.sandbox.dolv
 
-[research_node:vars]
+[research_nodes:vars]
 #ansible_ssh_common_args="-t "
 
 [zookeeper_cluster]
@@ -43,3 +44,6 @@ zookeeper03 ansible_host=researchnode13.sandbox.dolv myid=3
 kafka01 ansible_host=researchnode11.sandbox.dolv brokerId=0 myid=1
 kafka02 ansible_host=researchnode12.sandbox.dolv brokerId=1 myid=2
 kafka03 ansible_host=researchnode13.sandbox.dolv brokerId=2 myid=3
+
+[opencpu_nodes]
+opencpuNode01 ansible_host=researchnode02.sandbox.dolv
