@@ -22,7 +22,6 @@
   tags:
     - create_folders
 
-
 - name: Get the rapache sources
   get_url:
     url: "{{ rapache_source_url }}"
@@ -38,7 +37,7 @@
   tags:
     - build_rapache
 
-- name: Get archive contents
+- name: Get rapache archive contents
   shell: "tar tf {{ rapache_source_local_filename }}"
   args:
     chdir: "{{ download_dir }}/"
@@ -63,19 +62,56 @@
   tags:
     - build_rapache
 
-- name: Create rapache artifact from builded packages
-  archive:
-    path:
-        - "{{ rapache_rpmbuild_dir }}/RPMS/x86_64"
-    dest: "{{ download_dir }}/rpms-{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }}"
-    format: "{{ rapache_source_packaging.split('.')[-1] }}"
+- name: Prepare rapache artifact directory structure
+  file:
+    path: "{{ download_dir }}/temp{{ ansible_date_time.epoch }}/{{ rapache_artifactId }}-{{ rapache_version }}/{{ rapache_architecture }}"
+    state: directory
+  register: rapache_artifact_dir
   tags:
     - package_rapache
 
-- name: "Deploy {{ download_dir }}/rpms-{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }} to repository"
-  shell: "mvn -q deploy:deploy-file -Dfile={{ download_dir }}/rpms-{{ rapache_archive_contents.stdout_lines[0][:-1] }}.{{ rapache_source_packaging }} -Durl={{ rapache_repo_url }} -DrepositoryId={{ rapache_repositoryId }} -DgroupId={{ rapache_groupId }} -DartifactId={{ rapache_artifactId }} -Dversion={{ rapache_version }} -Dpackaging={{ rapache_source_packaging }}" 
+- name: Get files list for the artifact
+  find:
+    paths: "{{ rapache_rpmbuild_dir }}/RPMS/{{ rapache_architecture }}"
+    recurse: no
+    file_type: file
+  register: rapache_artifact_files
   tags:
-    - deploy_rapachy
+    - package_rapache
+
+- name: Copy files for the rapache artifact
+  copy:
+    src: "{{ item }}"
+    dest: "{{ rapache_artifact_dir.path }}/"
+    remote_src: True
+  with_items:
+    - "{{ rapache_artifact_files | json_query('files[*].path') }}"
+  tags:
+    - package_rapache      
+
+- name: Create rapache artifact from builded packages
+  archive:
+    path: 
+        - "{{ rapache_artifact_dir.path.split('/')[:-1] | join('/') }}"
+    dest: "{{ download_dir }}/rpms-{{ rapache_artifactId }}-{{ rapache_version }}.{{ rapache_packaging }}"
+    format: "{{ rapache_packaging.split('.')[-1] }}"
+    remove: True
+  tags:
+    - package_rapache
+
+- name: "Deploy {{ download_dir }}/rpms- {{ rapache_artifactId }}-{{ rapache_version }}.{{ rapache_packaging }} to repository"
+  shell: "mvn -q deploy:deploy-file -Dfile={{ download_dir }}/rpms-{{ rapache_artifactId }}-{{ rapache_version }}.{{ rapache_packaging }} -Durl={{ rapache_repo_url }} -DrepositoryId={{ rapache_repositoryId }} -DgroupId={{ rapache_groupId }} -DartifactId={{ rapache_artifactId }} -Dversion={{ rapache_version }} -Dpackaging={{ rapache_packaging }}" 
+  tags:
+    - deploy_rapache
+
+- name: Remove deployed artifact from local storage
+  file:
+    path: "{{ download_dir }}/rpms-{{ rapache_artifactId }}-{{ rapache_version }}.{{ rapache_packaging }}"
+    state: absent
+  tags:
+    - deploy_rapache
+    - cleanup_rapache  
+    - cleanup
           
 - name: Get the opencpu sources
   get_url:
@@ -117,17 +153,67 @@
   tags:
     - build_opencpu
 
-- name: Create an artifact from builded packages
-  archive:
-    path:
-        - "{{ opencpu_rpmbuild_dir }}/RPMS/x86_64"
-    dest: "{{ download_dir }}/rpms-{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }}" 
-    format: "{{ opencpu_source_packaging.split('.')[-1] }}"
+- name: Prepare opencpu artifact directory structure"
+  file:
+    path: "{{ download_dir }}/temp{{ ansible_date_time.epoch }}/{{ opencpu_artifactId }}-{{ opencpu_version }}/{{ opencpu_architecture }}"
+    state: directory
+  register: opencpu_artifact_dir
   tags:
     - package_opencpu
 
-- name: "Deploy  {{ download_dir }}/rpms-{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }} to repository"
-  shell: "mvn -q deploy:deploy-file -Dfile={{ download_dir }}/rpms-{{ opencpu_archive_contents.stdout_lines[0][:-1] }}.{{ opencpu_source_packaging }} -Durl={{ opencpu_repo_url }} -DrepositoryId={{ opencpu_repositoryId }} -DgroupId={{ opencpu_groupId }} -DartifactId={{ opencpu_artifactId }} -Dversion={{ opencpu_version }} -Dpackaging={{ opencpu_source_packaging }}"
+- name: Get files list for the artifact
+  find:  
+    paths: "{{ opencpu_rpmbuild_dir }}/RPMS/{{ opencpu_architecture }}"
+    recurse: no
+    file_type: file
+  register: opencpu_artifact_files
+  tags:
+    - package_opencpu
+
+- name: Copy files for the rapache artifact
+  copy:
+    src: "{{ item }}"
+    dest: "{{ opencpu_artifact_dir.path }}/"
+    remote_src: True
+    #  with_items:
+    #   - "{{ opencpu_artifact_files | json_query('files[*].path') }}"
+    with_fileglob:
+      - "{{ opencpu_rpmbuild_dir }}/RPMS/{{ opencpu_architecture }}/*"
+  tags:
+    - package_opencpu
+
+- name: Create an artifact from builded packages
+  archive:
+    path: 
+      - "{{ opencpu_artifact_dir.path.split('/')[:-1] | join('/') }}"
+    dest: "{{ download_dir }}/rpms-{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_packaging }}" 
+    format: "{{ opencpu_packaging.split('.')[-1] }}"
+    remove: True
+  tags:
+    - package_opencpu
+
+- name: "Deploy  {{ download_dir }}/rpms-{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_packaging }} to repository"
+  shell: "mvn -q deploy:deploy-file -Dfile={{ download_dir }}/rpms-{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_packaging }} -Durl={{ opencpu_repo_url }} -DrepositoryId={{ opencpu_repositoryId }} -DgroupId={{ opencpu_groupId }} -DartifactId={{ opencpu_artifactId }} -Dversion={{ opencpu_version }} -Dpackaging={{ opencpu_packaging }}"
   tags:
     - deploy_opencpu
 
+- name: Remove deployed artifact from local storage
+  file:
+    path: "{{ download_dir }}/rpms-{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_packaging }}"
+    state: absent
+  tags:
+    - deploy_opencpu
+    - cleanup_rapache
+    - cleanup
+
+- name: Clean working directories
+  shell: "rm -rf {{ item }}"
+  when: 
+    - item | length > 10
+  with_items:
+    - "{{ rapache_artifact_dir.path.split('/')[:-2] | join('/') }}"
+    - "{{ opencpu_artifact_dir.path.split('/')[:-2] | join('/') }}"
+    - "{{ rapache_rpmbuild_dir }}" 
+    - "{{ opencpu_rpmbuild_dir }}" 
+  tags:
+    - cleanup

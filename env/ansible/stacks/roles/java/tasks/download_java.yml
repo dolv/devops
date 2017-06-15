@@ -12,8 +12,10 @@
   file:
     path: "{{ download_dir }}"
     state: directory
-  become: True
-  become_method: sudo
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become:  
+  become_method: su 
   
 - name: Download Java
   get_url:

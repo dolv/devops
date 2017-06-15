@@ -49,4 +49,5 @@ zookeeper_clientPort: 2181
 zookeeper_leaderPort: 2182
 zookeeper_electionsPort: 2183
 
-zookeeper_log4g_prop: "DEBUG,ROLLINGFILE"
+#zookeeper_log4g_prop: "DEBUG,ROLLINGFILE"
+zookeeper_log4g_prop: "INFO,ROLLINGFILE"

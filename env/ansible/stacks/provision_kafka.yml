@@ -1,5 +1,5 @@
 ---
-- name: PROVISION VM PLAYBOOK
+- name: PROVISION KAFKA VM OR CLUSTER PLAYBOOK
   hosts: all
 
   roles:    

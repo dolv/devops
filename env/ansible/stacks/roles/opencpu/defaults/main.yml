@@ -45,6 +45,9 @@ rapache_source_packaging: tar.gz
 rapache_groupId: net.rapache
 rapache_artifactId: rapache
 rapache_version: 1.2.7
+rapache_packaging: "{{ rapache_source_packaging }}"
+rapache_classifier: ""
+rapache_architecture: "x86_64"
 rapache_repositoryId: nexusDeploymentRepo
 rapache_source_local_filename: "{{ rapache_artifactId }}-{{ rapache_version }}.{{ rapache_source_packaging }}"
 rapache_spec_path_in_archive: "{{ rapache_artifactId }}-{{ rapache_version }}/rpm/{{ rapache_artifactId }}.spec"
@@ -59,6 +62,9 @@ opencpu_source_packaging: tar.gz
 opencpu_groupId: org.opencpu
 opencpu_artifactId: opencpu-server
 opencpu_version: 2.0
+opencpu_packaging: "{{ opencpu_source_packaging }}"
+opencpu_classifier: ""
+opencpu_architecture: "x86_64"
 opencpu_repositoryId: nexusDeploymentRepo
 opencpu_source_local_filename: "{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_source_packaging }}"
 opencpu_spec_path_in_archive: "{{ opencpu_artifactId }}-{{ opencpu_version }}/rpm/opencpu.spec"
@@ -68,25 +74,3 @@ opencpu_repo_user: anonymous
 opencpu_repo_pass: changeme
 opencpu_reponame: thirdparty
 
-Rlibs:
-  - randomForest
-  - doMC
-
-
-fileshares:
-  - remote_share: "//rtrainingmodels.file.core.windows.net/modelshare"
-    local_mount_point: "{{ scripts_folder }}/models"
-    fstype: "cifs"
-    mount_options: "credentials=/home/{{ appuser }}/.cred/modelshare,rw,serverino,vers=3.0,file_mode=0777,dir_mode=0777"
-    dump_frequency: 0
-    fsck_order: 0
-    share_credentials_dst_location: "/home/{{ appuser }}/.cred/modelshare"
-    share_credentials_src_location: modelshare
-
-Rscript_name: "{{ scripts_folder }}/models/TestOnAzure.R"
-threads_number: "{{ ansible_processor_vcpus }}"
-dataset_rows_quantity: 10000
-pass_num: 1
-trees_num: 128
-models_location: "{{ scripts_folder }}/models"
-output_file: "{{ scripts_folder }}/results_$start.txt"
