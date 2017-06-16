@@ -191,7 +191,7 @@ Thus, once it is enebled in the system you are able to install it with the follo
     
     `cd devops/env/ansible/stacks/azure-stack && ls`
          
-16. Edit bootstrap.sh script, place correct credential there and save
+16. Edit bootstrap.sh script, place correct credential there and save (optional)
 17. Generate SSH key for accessing provisioned VM
 
     `ssh-keygen`
@@ -214,4 +214,4 @@ Thus, once it is enebled in the system you are able to install it with the follo
     azure_ssh_public_key_string: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFQZJpqohHPijvxKUovXE0u0gSiKwz4cB5hBduOiyptRbmWnmX0TbgKGRcZYGV3S/WPrrOqZhMfXJjv+9LrUdz7EvF2ixGXJPkUtGKWA1y8Vq33eX6zgYKPOvQTyqxskfRcGzcu5iPfdssrWE43+kMqrMDjEyyfEelCdJivuSlKOvdiVE3cx/xmR/kgzqdSNFSWO+hGe9g1wLVPpcEAwLLOLE7w/VlZEec+1DG9AZFXQM4cZyXrpMqrKozZXS9iKbJ7PVS1uhE5UPMQv3VYOjgBy8ufVwcOoamULK6SkIhnY1nJflO93OWKHSRBQSNcC+giOMnNMkZifK8DcrKJTgD'
     ```
 
-20. Execute bootstrap script `./bootstrap.sh`
+20. Execute bootstrap script `./bootstrap.sh` if you need to get a provisioned VM.
