@@ -37,6 +37,7 @@ ansible-playbook -i inventory/az_eastus2_dev-nethawk-kafka \
 # Stop a kafka_cluster
 
 To stop kafka you  have two options:
+
 1) to stop just kafka:
 
 ansible-playbook -i inventory/az_eastus2_dev-nethawk-kafka -l kafka_cluster provision_kafka.yml  -t stop_kafka
