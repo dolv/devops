@@ -36,13 +36,13 @@ ansible-playbook -i inventory/az_eastus2_dev-nethawk-kafka \
 
 # Stop a kafka_cluster
 
-To stop kafka you  have two options:
+To stop kafka you have two following options.
 
-1) to stop just kafka:
+1. to stop just kafka:
 
 ansible-playbook -i inventory/az_eastus2_dev-nethawk-kafka -l kafka_cluster provision_kafka.yml  -t stop_kafka
 
-2) to stop kafka and zookeeper altogather in one shot:
+2. to stop kafka and zookeeper altogather in one shot:
 ansible-playbook -i inventory/az_eastus2_dev-nethawk-kafka -l kafka_cluster provision_kafka.yml  -t stop_kafka && ansible-playbook -i inventory/az_eastus2_dev-nethawk-kafka -l kafka_cluster provision_kafka.yml  -t stop_zookeeper
 
 You can not use just two tags stop_zookeeper,stop_kafka in one playbook-run because it will stop zookeeper first and then kafka will not be able to cleanly shutdown. I recommend to use two separate commands for stopping kafka cluster as in the second variant.
