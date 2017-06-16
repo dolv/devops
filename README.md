@@ -61,7 +61,7 @@ Thus, once it is enebled in the system you are able to install it with the follo
 
 6. Clone this repo with the command
 
-    `git clone https://github.com/dolv/devops.git`
+    `git clone https://bitbucket.org/ngsteam/ngs_edd_devops.git`
 
 7. Using the Azure Resource Manager modules requires having Azure Python SDK installed on the host running Ansible. You will need to have == v2.0.0RC5 installed. The simplest way to install the SDK is via pip:
 
