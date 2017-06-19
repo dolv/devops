@@ -2,14 +2,14 @@
 azure
 
 [azure:children]
-eastus2_dev-hethawk-kafka
+eastus2_dev
 
-[eastus2_dev-hethawk-kafka:children]
+[eastus2_dev:children]
 zookeeper_cluster
 kafka_cluster
 opencpu_nodes
 
-[eastus2_dev-hethawk-kafka:vars]
+[eastus2_dev:vars]
 ansible_user=usertr
 
 [kafka_cluster]
@@ -18,7 +18,13 @@ kafka02 ansible_host=kafka02.dev-nethawk-kafka brokerId=1 myid=2
 kafka03 ansible_host=kafka03.dev-nethawk-kafka brokerId=2 myid=3
 
 [opencpu_nodes]
-opencpuNode01 ansible_host=researchnode02.sandbox.dolv
+opencpu-F4s  ansible_host=POC-opencpu-F4s.dev-nethawk-opencpu
+opencpu-F8s  ansible_host=POC-opencpu-F8s.dev-nethawk-opencpu
+opencpu-F16s ansible_host=POC-opencpu-F16s.dev-nethawk-opencpu
+
+[opencpu_nodes:vars]
+ansible_user=ops
+ansible_ssh_private_key_file=~/.ssh/edd_ops_rsa
 
 [zookeeper_cluster]
 zookeeper01 ansible_host=kafka01.dev-nethawk-kafka myid=1
