@@ -1,0 +1,37 @@
+---
+- name: Get the opencpu artifact from repository 
+  get_url:
+    url: "{{ opencpu_repo_url }}{{ opencpu_groupId.replace('.','/') }}/{{ opencpu_artifactId }}/{{ opencpu_version }}/{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_packaging }}"
+    dest: "{{ download_dir }}/"
+    mode: 0660
+    url_username: "{{ opencpu_repo_user }}"
+    url_password: "{{ opencpu_repo_pass }}"
+  become: True
+  become_user: "{{ appuser }}"
+  become_method: sudo  
+  tags:
+    - download_opencpu 
+    - install_opencpu  
+
+- name: Unarchive opencpu artifact
+  unarchive:
+    src: "{{ download_dir }}/{{ opencpu_artifactId }}-{{ opencpu_version }}.{{ opencpu_packaging }}"
+    dest: "{{ download_dir }}/"
+    remote_src: True
+    list_files: True
+  become: True
+  become_user: "{{ appuser }}"
+  register: opencpu_artifact_files
+  tags:
+    - install_opencpu
+
+- name: Install opencpu RPMs
+  yum:
+    name: "{{ download_dir }}/{{ item }}"
+    state: present
+  with_items:
+    - "{{ opencpu_artifact_files.files[1:] }}"
+  tags:
+    - install_opencpu
+  become: True
+  become_method: sudo

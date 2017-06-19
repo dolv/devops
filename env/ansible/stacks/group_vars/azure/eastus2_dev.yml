@@ -1,0 +1,13 @@
+---
+testvar: "bla_bla_bla"
+
+appuser: usertr
+
+rapache_repo_user: edd
+rapache_repo_pass: edd
+rapache_version: 1.2.7
+
+opencpu_repo_user: edd
+opencpu_repo_pass: edd
+opencpu_version: 2.0
+

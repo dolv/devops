@@ -1,0 +1,25 @@
+- name: Create application user
+  user:
+    name: "{{ appuser }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+  become: True
+  become_method: sudo
+  tags:
+    - create_user
+
+- name: Create needed folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True
+  become_method: sudo
+  with_items:
+    - "{{ download_dir }}"
+    - "{{ opencpu_dir }}"
+  tags:
+    - create_folders
+

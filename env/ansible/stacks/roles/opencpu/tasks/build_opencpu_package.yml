@@ -13,7 +13,6 @@
     state: directory
     owner: "{{ appuser }}"
   with_items:
-    - "{{ download_dir }}"
     - "{{ tools_dir }}"      
     - "{{ build_dir }}"  
     - "{{ opencpu_rpmbuild_dir }}"

@@ -1,8 +1,18 @@
 ---
+- include: ../../generic/tasks/install_packages.yml
+  tags:
+    - always
+    - install_packages 
+    - build_opencpu_artifact
+    - install_opencpu_artifact
+
+- include: prebuild.yml
+  tags: always
+
 - include: build_opencpu_package.yml
   tags: 
     - build_opencpu_artifact
 
 - include: install_opencpu.yml
   tags:
-    - install_opencpu
+    - install_opencpu_artifact
