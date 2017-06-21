@@ -54,6 +54,14 @@ $clusterVMs = @(
 	}
 )
 
+# $clusterVMs = @(
+# 	@{ Name = "POC-opencpu-F4s";
+# 		Size = "Standard_F4s";
+# 		UserName = $cred.UserName;	
+# 		SSHPubKey = $sshPublicKey;
+# 		authorized_keys_Path = $defaultSSHAuthorisedKeysFile
+# 	}
+# )
 
 <###################################
     Main Script body goes here
@@ -117,7 +125,7 @@ For ($i=0;$i -lt $totalVMnumber; $i++){
 		
 	# Create a virtual machine configuration
 	$vmConfig = New-AzureRmVMConfig -VMName $vm.Name -VMSize $vm.Size | `
-	  Set-AzureRmVMOperatingSystem -Linux -ComputerName $vm.Name -Credential $cred -DisablePasswordAuthentication | `
+	  Set-AzureRmVMOperatingSystem -Linux -ComputerName $vm.Name -Credential $cred | `
 	  Set-AzureRmVMSourceImage -PublisherName $OS_Image.PublisherName -Offer $OS_Image.Offer -Skus $OS_Image.Skus -Version $OS_Image.Version | `
 	  Add-AzureRmVMNetworkInterface -Id $vm.NIC.Id
 
