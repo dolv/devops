@@ -1,0 +1,17 @@
+---
+- name: Remove /etc/sudoers.d/appuser file
+  file:
+    path: /etc/sudoers.d/appuser
+    state: absent
+  become: true
+  become_method: sudo
+
+- name: Place new appuser file to sudoers.d folder
+  template:
+    src: appuser.j2
+    dest: /etc/sudoers.d/appuser
+    owner: root
+    group: root
+    mode: 0440      
+  become: true
+  become_method: sudo

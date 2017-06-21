@@ -1,0 +1,10 @@
+- name: Power On Virtual Machine
+  azure_rm_virtualmachine: 
+    resource_group: "{{ azure_rm_VMResourceGroup }}"
+    name: "{{ item }}"
+    admin_username: "{{ admin_username }}"
+    started: yes
+  delegate_to: localhost
+  with_items:
+    - "{{ VM_names }}"
+
