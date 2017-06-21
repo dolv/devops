@@ -17,6 +17,9 @@ kafka01 ansible_host=kafka01.dev-nethawk-kafka brokerId=0 myid=1
 kafka02 ansible_host=kafka02.dev-nethawk-kafka brokerId=1 myid=2
 kafka03 ansible_host=kafka03.dev-nethawk-kafka brokerId=2 myid=3
 
+[kafka_cluster:vars]
+azure_rm_VMResourceGroup="dev-nethawk-kafka"
+
 [opencpu_nodes]
 opencpu-F4s  ansible_host=POC-opencpu-F4s.dev-nethawk-opencpu
 opencpu-F8s  ansible_host=POC-opencpu-F8s.dev-nethawk-opencpu

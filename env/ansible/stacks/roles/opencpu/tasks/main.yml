@@ -1,10 +1,14 @@
 ---
 - include: ../../generic/tasks/install_packages.yml
   tags:
-    - always
     - install_packages 
     - build_opencpu_artifact
     - install_opencpu_artifact
+- include: ../../R/tasks/configure_R.yml
+  tags:
+    - configure_R
+    - build_opencpu_artifact
+    - install_opencpu_artifact  
 
 - include: prebuild.yml
   tags: always
@@ -16,3 +20,7 @@
 - include: install_opencpu.yml
   tags:
     - install_opencpu_artifact
+
+- include: configure_sudoers.yml
+  tags:
+    - configure_sudoers

@@ -24,6 +24,11 @@ packages_os:
   - MTA
   - mod_ssl
 
+Rlibs:
+  - randomForest
+  - doMC
+  - AzureML
+
 appuser: usertr
 app_dir: /apps
 scripts_folder: /apps/share
