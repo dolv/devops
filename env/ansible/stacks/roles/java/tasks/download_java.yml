@@ -14,9 +14,9 @@
     state: directory
     owner: "{{ appuser }}"
     group: "{{ appuser }}"
-  become:  
-  become_method: su 
-  
+  become:
+  become_method: su
+
 - name: Download Java
   get_url:
     url: "{{ java_url }}"

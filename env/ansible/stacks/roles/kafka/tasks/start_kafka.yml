@@ -4,7 +4,7 @@
     chdir: "{{ kafka_dir }}/bin/"
   environment:
     JAVA_HOME: "{{ java_dir }}"
-    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"  
+    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
 
 - name: Wait for the Kafka listener port to become available
   wait_for:

@@ -8,17 +8,15 @@
     - install_packages
 
 - name: Create needed folders
-  file:
-    path: "{{ item }}"
-    state: directory
+  include: roles/generic/tasks/create_folders.yml
     owner: "{{ appuser }}"
-  with_items:
-    - "{{ tools_dir }}"      
-    - "{{ build_dir }}"  
-    - "{{ opencpu_rpmbuild_dir }}"
-    - "{{ opencpu_rpmbuild_sources_dir }}"
-    - "{{ opencpu_rpmbuild_specs_dir }}"
-  tags:
+    folders:
+      - "{{ tools_dir }}"
+      - "{{ build_dir }}"
+      - "{{ opencpu_rpmbuild_dir }}"
+      - "{{ opencpu_rpmbuild_sources_dir }}"
+      - "{{ opencpu_rpmbuild_specs_dir }}"
+ tags:
     - create_folders
 
 - name: Get the rapache sources

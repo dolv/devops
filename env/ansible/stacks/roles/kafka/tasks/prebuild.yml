@@ -1,0 +1,10 @@
+- name: Create application user
+  user:
+    name: "{{ appuser }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+  become: True
+  become_method: sudo
+  tags:
+    - create_user

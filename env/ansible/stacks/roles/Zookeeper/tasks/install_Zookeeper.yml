@@ -8,19 +8,19 @@
     state: absent
   with_items:
     - "bin"
-    - "conf"  
+    - "conf"
     - "contrib"
     - "lib"
     - "recipies"
     - "src"
-  when: not from_scratch  
-  
+  when: not from_scratch
+
 - name: Empty zookeeper folder contents
   shell: "rm {{ zookeeper_dir }}/*"
-  args: 
+  args:
     chdir: "{{ zookeeper_dir }}"
   when:
-    - not from_scratch  
+    - not from_scratch
     - zookeeper_dir | length > 5
 
 - name: Remove zookeeper logs, data & backup folders
@@ -30,10 +30,10 @@
   with_items:
     - "{{ zookeeper_dir }}"
     - "{{ zookeeper_logsDir }}"
-    - "{{ zookeeper_dataDir }}"  
+    - "{{ zookeeper_dataDir }}"
     - "{{ zookeeper_confBackup_Dir }}"
   when: from_scratch
- 
+
 - name: Create Zookeeper folders.
   file:
     path: "{{ item }}"
@@ -43,7 +43,7 @@
     - "{{ zookeeper_dir }}"
     - "{{ backups_dir }}"
     - "{{ zookeeper_logsDir }}"
-    - "{{ zookeeper_dataDir }}"  
+    - "{{ zookeeper_dataDir }}"
     - "{{ zookeeper_confBackup_Dir }}"
   when: from_scratch
 

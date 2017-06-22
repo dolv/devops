@@ -14,7 +14,7 @@
 #     - install_packages
 
 - include: download_java.yml
-  tags: 
+  tags:
     - download_java
     - install_java
 

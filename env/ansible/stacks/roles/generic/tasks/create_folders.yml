@@ -1,0 +1,13 @@
+- name: Create needed folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group | default( {{ owner }} ) }}"
+  become: True
+  become_method: sudo
+  with_items:
+    - "{{ folders }}"
+  tags:
+    - create_folders
+

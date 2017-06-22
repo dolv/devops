@@ -14,7 +14,7 @@
     state: directory
   become: True
   become_method: sudo
-  
+
 - name: Download kafka
   get_url:
     url: "{{ kafka_url }}"

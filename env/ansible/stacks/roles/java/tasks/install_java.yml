@@ -6,7 +6,7 @@
 
 - name: Get the path from link
   command: readlink {{ java_dir_link }}
-  register: link_output 
+  register: link_output
   when: from_scratch
 
 - name: Remove Java folder in order to recreate
@@ -18,7 +18,7 @@
 - name: Ensure java dir exists.
   file:
     path: "{{ java_dir }}"
-    state: directory  
+    state: directory
 
 - name: Unpack java artifact.
   unarchive:
@@ -34,7 +34,7 @@
     chdir: "{{ download_dir }}"
   with_items:
     - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ java_dir }}/"
-    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"  
+    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"
   when: java_dir|length > 5
 
 - name: Create a simlink to the current verion of java folder

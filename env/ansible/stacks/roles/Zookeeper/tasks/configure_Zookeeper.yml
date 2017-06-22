@@ -18,7 +18,7 @@
     src: myid.j2
     dest: "{{ zookeeper_dataDir }}/myid"
     mode: 0664
-  when: zookeeper_clustered  
+  when: zookeeper_clustered
 
 - name: Check if config backups exist
   find:

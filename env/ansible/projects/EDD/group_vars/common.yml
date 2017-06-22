@@ -1,4 +1,32 @@
 ---
-rapache_repo_url: http://10.201.104.10:8081/repository/thirdparty/
-opencpu_repo_url: http://10.201.104.10:8081/repository/thirdparty/
+shared_nexus_host: "10.201.104.10"
+shared_nexus_port: 8081
+shared_nexus_protocol: "http"
+shared_nexus: "{{ shared_nexus_protocol }}://{{ 10.201.104.10 }}:{{ shared_nexus_port }}"
+shared_repo_url: "{{ shared_nexus: }}/repository/"
 
+thirdparty_repo_url: "{{ shared_repo_url }}thirdparty/"
+thirdparty_repo_user: "edd"
+thirdparty_repo_pass: "edd"
+
+rapache_repo_url: "{{ thirdparty_repo_url }}"
+rapache_repo_user: "{{ thirdparty_repo_user }}"
+rapache_repo_pass: "{{ thirdparty_repo_pass }}"
+
+opencpu_repo_url: "{{ thirdparty_repo_url }}"
+opencpu_repo_user: "{{ thirdparty_repo_user }}"
+opencpu_repo_pass: "{{ thirdparty_repo_pass }}"
+
+java_repo_url: "{{ thirdparty_repo_url }}"
+java_repo_user: "{{ thirdparty_repo_user }}"
+java_repo_pass: "{{ thirdparty_repo_pass }}"
+
+zookeeper_repo_url: "{{ thirdparty_repo_url }}"
+zookeeper_repo_user: "{{ thirdparty_repo_user }}"
+zookeeper_repo_pass: "{{ thirdparty_repo_pass }}"
+zookeeper_clustered: True
+
+kafka_repo_url: "{{ thirdparty_repo_url }}"
+kafka_repo_user: "{{ thirdparty_repo_user }}"
+kafka_repo_pass: "{{ thirdparty_repo_pass }}"
+kafka_clustered: True

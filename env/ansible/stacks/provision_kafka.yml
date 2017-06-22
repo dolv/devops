@@ -2,7 +2,7 @@
 - name: PROVISION KAFKA VM OR CLUSTER PLAYBOOK
   hosts: all
 
-  roles:    
+  roles:
     - java
     - Zookeeper
     - kafka

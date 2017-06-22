@@ -1,6 +1,6 @@
 ---
 - include: backup_kafka_config.yml
-  with_items: 
+  with_items:
     - "{{ kafka_configs }}"
   when: not from_scratch
 
@@ -10,17 +10,17 @@
     state: absent
   with_items:
     - "bin"
-    - "config"  
+    - "config"
     - "libs"
     - "site-docs"
-  when: not from_scratch  
+  when: not from_scratch
 
 - name: Empty kafka folder contents
   shell: "rm {{ kafka_dir }}/*"
-  args: 
+  args:
     chdir: "{{ kafka_dir }}"
   when:
-    - not from_scratch  
+    - not from_scratch
     - kafka_dir | length > 5
 
 - name: Remove kafka logs, data & backup folders
@@ -32,7 +32,7 @@
     - "{{ kafka_logsDir }}"
     - "{{ kafka_confBackup_Dir }}"
   when: from_scratch
- 
+
 - name: Create kafka folders.
   file:
     path: "{{ item }}"
@@ -59,7 +59,7 @@
     chdir: "{{ download_dir }}"
   with_items:
     - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ kafka_dir }}/"
-    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"  
+    - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"
   when: kafka_dir|length > 5
 
 - name: Create a simlink to the current verion of kafka folder

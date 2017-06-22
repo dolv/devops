@@ -1,3 +1,8 @@
+- include: prebuild.yml
+  tags:
+    - download_zookeeper
+    - install_zookeeper
+
 - include: ../../generic/tasks/configure_bashrc.yml
   tags:
     - initial_os_proviosion

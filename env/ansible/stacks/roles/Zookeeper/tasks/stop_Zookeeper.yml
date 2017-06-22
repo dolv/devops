@@ -1,7 +1,7 @@
 - name: Check if Zookeeper stop script exists in expected location
   stat:
     path: "{{ zookeeper_dir }}/bin/{{ zookeeper_stop_script_name }}"
-  register:  script 
+  register:  script
 
 - name: Check if Zookeeper is running using native means
   shell: "./{{ zookeeper_stop_script_name }} status 1>@2 2>/dev/null && echo RUNNING || echo STOPPED"
@@ -9,8 +9,8 @@
     chdir: "{{ zookeeper_dir }}/bin/"
   environment:
     JAVA_HOME: "{{ java_dir_link }}"
-    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"    
-  when: script.stat.exists  
+    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
+  when: script.stat.exists
   register: service_check
 
 - name: Stop Zookeeper
@@ -19,9 +19,9 @@
     chdir: "{{ zookeeper_dir }}/bin/"
   environment:
     JAVA_HOME: "{{ java_dir_link }}"
-    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"    
+    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
   when:
-    - script.stat.exists 
+    - script.stat.exists
     - service_check.stdout == 'RUNNING'
 
 - name: Check if Zookeeper is running using OS tools
@@ -32,7 +32,7 @@
 - name: "Stop Zookeeper forced (the process which owns {{ zookeeper_clientPort }} port)"
   shell: "kill -9 $(netstat -pln 2> /dev/null | grep {{ zookeeper_clientPort }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p')"
   when:
-    - not script.stat.exists 
+    - not script.stat.exists
     - service_check.stdout == 'RUNNING'
 
 - name: "Wait for the Zookeeper clientPort port {{ zookeeper_clientPort }} to become unavailable"

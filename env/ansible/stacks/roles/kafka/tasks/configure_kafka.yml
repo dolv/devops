@@ -1,6 +1,6 @@
 ---
 - include: backup_kafka_config.yml kafka_confFile={{ item }}
-  with_items: 
+  with_items:
     - "{{ kafka_configs }}"
 
 - name: Push configuration files to remote server.
@@ -8,9 +8,9 @@
     src: "{{ item.split('/')[-1] }}.j2"
     dest: "{{ item }}"
     mode: 0664
-  with_items: 
+  with_items:
     - "{{ kafka_configs }}"
-    
+
 
 - name: Check if config backups exist
   find:

@@ -1,15 +1,15 @@
 - name: Check if Kafka shell script exists in expected location
   stat:
     path: "{{ kafka_dir }}/bin/{{ kafka_stop_script_name }}"
-  register:  script 
+  register:  script
 
 # - name: Check if kafka is running using native means
 #   shell: "echo dump | nc localhost {{ listener_port }} | grep brokers | grep /brokers/ids/$(grep broker.id {{ kafka_serverProperties }} | cut -d '=' -f2) > /dev/null && echo RUNNING || echo STOPPED"
 #   environment:
 #     JAVA_HOME: "{{ java_dir_link }}"
-#     PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"    
-#   when: script.stat.exists  
-#   register: service_check  
+#     PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
+#   when: script.stat.exists
+#   register: service_check
 
 - name: Check if kafka is running using OS tools
   shell: "ps -ef | grep $(netstat -pln 2> /dev/null | grep {{ listener_port }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p') 2>/dev/null | grep -v grep > /dev/null && echo RUNNING || echo STOPPED"
@@ -22,9 +22,9 @@
     chdir: "{{ kafka_dir }}/bin/"
   environment:
     JAVA_HOME: "{{ java_dir }}"
-    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"  
+    PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
   when:
-    - script.stat.exists  
+    - script.stat.exists
     - service_check.stdout == 'RUNNING'
 
 - name: "Stop Kafka forced (the process which owns {{ listener_port }} port)"

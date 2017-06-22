@@ -14,7 +14,7 @@
     state: directory
   become: True
   become_method: sudo
-  
+
 - name: Download Zookeeper
   get_url:
     url: "{{ zookeeper_url }}"
