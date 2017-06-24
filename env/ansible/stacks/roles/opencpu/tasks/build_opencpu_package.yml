@@ -9,6 +9,7 @@
 
 - name: Create needed folders
   include: roles/generic/tasks/create_folders.yml
+  vars:
     owner: "{{ appuser }}"
     folders:
       - "{{ tools_dir }}"
@@ -16,7 +17,7 @@
       - "{{ opencpu_rpmbuild_dir }}"
       - "{{ opencpu_rpmbuild_sources_dir }}"
       - "{{ opencpu_rpmbuild_specs_dir }}"
- tags:
+  tags:
     - create_folders
 
 - name: Get the rapache sources

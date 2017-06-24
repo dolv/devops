@@ -4,7 +4,7 @@
     path: "{{ app_dir }}"
     state: directory
     owner: "{{ appuser }}"
-    group: root
+    group: "{{ appuser }}"
   become: True
   become_method: sudo
 
@@ -14,8 +14,8 @@
     state: directory
     owner: "{{ appuser }}"
     group: "{{ appuser }}"
-  become:
-  become_method: su
+  become: True
+  become_method: sudo
 
 - name: Download Java
   get_url:
@@ -25,4 +25,5 @@
     mode: 0774
     url_username: "{{ java_repo_user }}"
     url_password: "{{ java_repo_pass}}"
-
+  become: True
+  become_method: sudo

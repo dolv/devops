@@ -4,15 +4,19 @@
   register:  script
 
 # - name: Check if kafka is running using native means
-#   shell: "echo dump | nc localhost {{ listener_port }} | grep brokers | grep /brokers/ids/$(grep broker.id {{ kafka_serverProperties }} | cut -d '=' -f2) > /dev/null && echo RUNNING || echo STOPPED"
+#   shell: "echo dump | nc localhost {{ kafka_listener_port }} | grep brokers | grep /brokers/ids/$(grep broker.id {{ kafka_serverProperties }} | cut -d '=' -f2) > /dev/null && echo RUNNING || echo STOPPED"
 #   environment:
 #     JAVA_HOME: "{{ java_dir_link }}"
 #     PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
-#   when: script.stat.exists
+#   when:
+#     - script.stat.exists
+#     - not from_scratch
 #   register: service_check
+#   become: True
+#   become_user: "{{ appuser }}"
 
 - name: Check if kafka is running using OS tools
-  shell: "ps -ef | grep $(netstat -pln 2> /dev/null | grep {{ listener_port }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p') 2>/dev/null | grep -v grep > /dev/null && echo RUNNING || echo STOPPED"
+  shell: "ps -ef | grep $(netstat -pln 2> /dev/null | grep {{ kafka_listener_port }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p') 2>/dev/null | grep -v grep > /dev/null && echo RUNNING || echo STOPPED"
 #  when: not script.stat.exists
   register: service_check
 
@@ -26,16 +30,19 @@
   when:
     - script.stat.exists
     - service_check.stdout == 'RUNNING'
+  become: True
+ 
 
-- name: "Stop Kafka forced (the process which owns {{ listener_port }} port)"
-  shell: "kill -9 $(netstat -pln 2> /dev/null | grep {{ listener_port }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p')"
+- name: "Stop Kafka forced (the process which owns {{ kafka_listener_port }} port)"
+  shell: "kill -9 $(netstat -pln 2> /dev/null | grep {{ kafka_listener_port }} | sed -nE 's|.* ([0-9]+)\\/\\w+|\\1|p')"
   when:
     - not script.stat.exists or from_scratch
     - service_check.stdout == 'RUNNING'
+  become: True
 
 - name: Wait for the Kafka listener port to become unavailable
   wait_for:
-    port: "{{ listener_port }}"
+    port: "{{ kafka_listener_port }}"
     state: stopped
     delay: 3
     timeout: 120

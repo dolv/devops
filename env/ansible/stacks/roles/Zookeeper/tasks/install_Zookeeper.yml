@@ -14,6 +14,7 @@
     - "recipies"
     - "src"
   when: not from_scratch
+  become: True
 
 - name: Empty zookeeper folder contents
   shell: "rm {{ zookeeper_dir }}/*"
@@ -22,6 +23,7 @@
   when:
     - not from_scratch
     - zookeeper_dir | length > 5
+  become: True
 
 - name: Remove zookeeper logs, data & backup folders
   file:
@@ -33,12 +35,15 @@
     - "{{ zookeeper_dataDir }}"
     - "{{ zookeeper_confBackup_Dir }}"
   when: from_scratch
+  become: True
 
 - name: Create Zookeeper folders.
   file:
     path: "{{ item }}"
     state: directory
     recurse: yes
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
   with_items:
     - "{{ zookeeper_dir }}"
     - "{{ backups_dir }}"
@@ -46,6 +51,7 @@
     - "{{ zookeeper_dataDir }}"
     - "{{ zookeeper_confBackup_Dir }}"
   when: from_scratch
+  become: True
 
 - name: Unpack Zookeeper artifact.
   unarchive:
@@ -53,7 +59,10 @@
     dest: "{{ download_dir }}/"
     remote_src: True
     list_files: yes
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
   register: unpack_out
+  become: True
 
 - name: "Move zookeeper to the {{ zookeeper_dir }}"
   shell: "{{ item }}"
@@ -63,6 +72,7 @@
     - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ zookeeper_dir }}/"
     - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"
   when: zookeeper_dir|length > 5
+  become: True
 
 - name: Create a simlink to the current verion of zookeeper folder
   file:
@@ -70,3 +80,6 @@
     path: "{{ zookeeper_dir_link }}"
     state: link
     force: yes
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True

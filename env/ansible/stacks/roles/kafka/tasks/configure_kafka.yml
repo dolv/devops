@@ -8,8 +8,11 @@
     src: "{{ item.split('/')[-1] }}.j2"
     dest: "{{ item }}"
     mode: 0664
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
   with_items:
     - "{{ kafka_configs }}"
+  become: True
 
 
 - name: Check if config backups exist

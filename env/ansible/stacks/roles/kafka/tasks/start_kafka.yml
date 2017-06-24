@@ -5,10 +5,12 @@
   environment:
     JAVA_HOME: "{{ java_dir }}"
     PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
+  become: True
+  become_user: "{{ appuser }}"
 
 - name: Wait for the Kafka listener port to become available
   wait_for:
-    port: "{{ listener_port }}"
+    port: "{{ kafka_listener_port }}"
     delay: 3
     timeout: 120
     sleep: 5

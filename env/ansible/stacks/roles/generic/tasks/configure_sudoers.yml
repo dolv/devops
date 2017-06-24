@@ -3,7 +3,7 @@
   stat:
     path: /etc/sudoers.d/waagent
   register: waagent
-  become: true
+  become: True
   become_method: sudo
 
 - name: Configure NOPASSWD for waagent user
@@ -13,6 +13,6 @@
     regexp: '^(\S+)\sALL=\(ALL\) ALL'
     backrefs: yes
     line: '\1 ALL=(ALL) NOPASSWD:ALL'
-  become: true
+  become: True
   become_method: sudo
   when: waagent.stat.exists | bool

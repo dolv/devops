@@ -10,3 +10,5 @@
     dest: "{{ zookeeper_confBackup_Dir }}/{{ zookeeper_confFile.split('/')[-1] }}.{{ ansible_date_time.iso8601_micro }}"
     remote_src: True
   when: zcfg.stat.exists
+  become: True
+  become_user: "{{ appuser }}"

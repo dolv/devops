@@ -1,0 +1,46 @@
+---
+- name: Place zookeeper firewalld service template
+  template:
+    src: firewalld_zookeeper_service.xml.j2
+    dest: /etc/firewalld/services/zookeeper.xml
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
+  become: True
+
+- name: Make sure a service is running
+  systemd:
+    state: restarted
+    name: firewalld
+  become: True
+
+- name: Configure deafult firewalld zone 
+  shell: "firewall-cmd --set-default-zone={{ zookeeper_firewalld_zone }}"
+  become: True
+
+- name: Place eth0 interface to default zone
+  firewalld:
+    zone: "{{ zookeeper_firewalld_zone }}"
+    interface: eth0
+    permanent: true
+    state: enabled
+    immediate: True
+  become: True
+
+- name: Configure ifcfg0 to be in default zone
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    regexp: '^ZONE='
+    line: "SELINUX={{ zookeeper_firewalld_zone }}"      
+  become: True
+
+- name: Permanently add Zookeper service to Firewalld
+  firewalld:
+    service: zookeeper
+    permanent: true
+    state: enabled
+    zone: "{{ zookeeper_firewalld_zone }}"
+    immediate: True
+  become: True
+
+

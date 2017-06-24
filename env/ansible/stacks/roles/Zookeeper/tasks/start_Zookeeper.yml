@@ -5,6 +5,8 @@
   environment:
     JAVA_HOME: "{{ java_dir_link }}"
     PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
+  become: True
+  become_user: "{{ appuser }}"
 
 - name: Wait for the Zookeeper clientPort port to become available
   wait_for:
@@ -21,3 +23,5 @@
   environment:
     JAVA_HOME: "{{ java_dir_link }}"
     PATH: "{{ lookup('env', 'PATH') }}:{{ java_dir }}/bin"
+  become: True
+  become_user: "{{ appuser }}"

@@ -4,7 +4,7 @@
     path: "{{ app_dir }}"
     state: directory
     owner: "{{ appuser }}"
-    group: root
+    group: "{{ appuser }}"
   become: True
   become_method: sudo
 
@@ -12,6 +12,8 @@
   file:
     path: "{{ download_dir }}"
     state: directory
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
   become: True
   become_method: sudo
 
@@ -23,3 +25,5 @@
     mode: 0774
     url_username: "{{ zookeeper_repo_user }}"
     url_password: "{{ zookeeper_repo_pass}}"
+    timeout: 30
+  become: True

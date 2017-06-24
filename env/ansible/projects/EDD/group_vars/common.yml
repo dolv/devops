@@ -2,10 +2,10 @@
 shared_nexus_host: "10.201.104.10"
 shared_nexus_port: 8081
 shared_nexus_protocol: "http"
-shared_nexus: "{{ shared_nexus_protocol }}://{{ 10.201.104.10 }}:{{ shared_nexus_port }}"
-shared_repo_url: "{{ shared_nexus: }}/repository/"
+shared_nexus: "{{ shared_nexus_protocol }}://{{ shared_nexus_host }}:{{ shared_nexus_port }}"
+shared_repo_url: "{{ shared_nexus }}/repository"
 
-thirdparty_repo_url: "{{ shared_repo_url }}thirdparty/"
+thirdparty_repo_url: "{{ shared_repo_url }}/thirdparty/"
 thirdparty_repo_user: "edd"
 thirdparty_repo_pass: "edd"
 

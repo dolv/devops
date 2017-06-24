@@ -1,0 +1,26 @@
+[common:children]
+azure
+
+[azure:children]
+az_eastus2
+
+[az_eastus2:children]
+az_eastus2_qa
+
+[az_eastus2_qa:children]
+zookeeper_cluster
+kafka_cluster
+
+[az_eastus2_qa:vars]
+ansible_user=ops
+ansible_ssh_private_key_file=~/.ssh/edd_ops_rsa
+
+[kafka_cluster]
+kafka01 ansible_host=nhQAkafka00.qa-nethawk-kafka brokerId=0 myid=1
+kafka02 ansible_host=nhQAkafka01.qa-nethawk-kafka brokerId=1 myid=2
+kafka03 ansible_host=nhQAkafka02.qa-nethawk-kafka brokerId=2 myid=3
+
+[zookeeper_cluster]
+zookeeper01 ansible_host=nhQAkafka00.qa-nethawk-kafka myid=1
+zookeeper02 ansible_host=nhQAkafka01.qa-nethawk-kafka myid=2
+zookeeper03 ansible_host=nhQAkafka02.qa-nethawk-kafka myid=3

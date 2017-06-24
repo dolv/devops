@@ -1,0 +1,17 @@
+---
+- name: Push customized zookeeper.service file to the remote server.
+  template:
+    src: zookeeper_service.j2
+    dest: "{{ zookeeper_systemd_service_file }}"
+    mode: 0644
+    owner: root
+    group: root
+  become: True
+ 
+- name: Enable service Zookeeper and ensure it is not masked
+  systemd:
+    daemon_reload: yes      
+    name: zookeeper
+    enabled: yes
+    masked: no
+  become: True

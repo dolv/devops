@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Zookeeper</short>
+  <description>Zookeeper service for NGS EDD project. Is used by kafka service for runnig kafka cluster</description>
+  <port protocol="tcp" port="{{ zookeeper_clientPort }}"/>
+  <port protocol="tcp" port="{{ zookeeper_leaderPort }}"/>
+  <port protocol="tcp" port="{{ zookeeper_electionsPort }}"/>
+</service>
+

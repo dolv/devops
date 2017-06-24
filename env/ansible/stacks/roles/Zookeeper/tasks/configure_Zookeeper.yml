@@ -6,18 +6,27 @@
     src: zoo.cfg.j2
     dest: "{{ zookeeper_confFile }}"
     mode: 0664
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True
 
 - name: Push customized zkEnv.sh to the remote server.
   template:
     src: zkEnv.sh.j2
     dest: "{{ zookeeper_dir }}/bin/zkEnv.sh"
     mode: 0664
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True
 
 - name: Push myid file to remote server.
   template:
     src: myid.j2
     dest: "{{ zookeeper_dataDir }}/myid"
     mode: 0664
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True
   when: zookeeper_clustered
 
 - name: Check if config backups exist

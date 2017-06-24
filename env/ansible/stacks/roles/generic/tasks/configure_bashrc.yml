@@ -1,7 +1,10 @@
 ---
 - name: Make colorized bash PROMPT
+  become: True
+  become_method: sudo
   blockinfile:
     path: /etc/bashrc
+    remote_src: True
     block: |
       get_repo_name() {
           reponame=$(basename $(git rev-parse --show-toplevel 2> /dev/null) 2> /dev/null)
@@ -22,6 +25,4 @@
             PS1="{{ root_user_PS1 }}"
          fi
       fi
-  become: true
-  become_method: sudo
 

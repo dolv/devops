@@ -2,14 +2,17 @@
 azure
 
 [azure:children]
-eastus2_dev
+az_eastus2
 
-[eastus2_dev:children]
+[az_eastus2:children]
+az_eastus2_dev
+
+[az_eastus2_dev:children]
 zookeeper_cluster
 kafka_cluster
 opencpu_nodes
 
-[eastus2_dev:vars]
+[az_eastus2_dev:vars]
 ansible_user=usertr
 
 [kafka_cluster]

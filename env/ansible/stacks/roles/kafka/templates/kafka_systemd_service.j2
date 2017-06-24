@@ -1,0 +1,17 @@
+[Unit]
+Description=Apache Kafka server (broker)
+Documentation=http://kafka.apache.org/documentation.html
+Requires=network.target remote-fs.target 
+After=network.target remote-fs.target zookeeper.service
+
+[Service]
+Environment=JAVA_HOME={{ java_dir_link }}
+Environment=PATH=$PATH:{{ java_dir_link }}/bin
+Type=forking
+User={{ appuser }}
+Group={{ appuser }}
+ExecStart={{ kafka_dir }}/bin/{{ kafka_start_script_name }} {{ kafka_start_script_params }}
+ExecStop={{ kafka_dir }}/bin/{{ kafka_stop_script_name }}
+
+[Install]
+WantedBy=multi-user.target

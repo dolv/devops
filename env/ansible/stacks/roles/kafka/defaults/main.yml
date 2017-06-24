@@ -52,9 +52,9 @@ kafka_clustered: False
 brokerId: 0
 delete_topic_enable: "true"
 listener_name: "PLAINTEXT"
-listener_port: 9092
+kafka_listener_port: 9092
 kafka_host_name: ""
-kafka_listeners: "{{ listener_name }}://{{ kafka_host_name }}:{{ listener_port }}"
+kafka_listeners: "{{ listener_name }}://{{ kafka_host_name }}:{{ kafka_listener_port }}"
 kafka_advertisedListeners: "{{ kafka_listeners }}"
 listener_security_protocol_map: "PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL"
 num_network_threads: 3
@@ -73,4 +73,5 @@ log_retention_check_interval_ms: 300000
 zookeeper_connection_str: "localhost:2181"
 zookeeper_connection_timeout_ms: 6000
 
-
+kafka_firewalld_zone: internal
+kafka_systemd_service_file: /etc/systemd/system/kafka.service

@@ -14,6 +14,7 @@
     - "libs"
     - "site-docs"
   when: not from_scratch
+  become: True
 
 - name: Empty kafka folder contents
   shell: "rm {{ kafka_dir }}/*"
@@ -22,6 +23,7 @@
   when:
     - not from_scratch
     - kafka_dir | length > 5
+  become: True
 
 - name: Remove kafka logs, data & backup folders
   file:
@@ -32,18 +34,22 @@
     - "{{ kafka_logsDir }}"
     - "{{ kafka_confBackup_Dir }}"
   when: from_scratch
+  become: True
 
 - name: Create kafka folders.
   file:
     path: "{{ item }}"
     state: directory
     recurse: yes
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
   with_items:
     - "{{ kafka_dir }}"
     - "{{ backups_dir }}"
     - "{{ kafka_logsDir }}"
     - "{{ kafka_confBackup_Dir }}"
   when: from_scratch
+  become: True
 
 - name: Unpack kafka artifact.
   unarchive:
@@ -51,7 +57,10 @@
     dest: "{{ download_dir }}/"
     remote_src: True
     list_files: yes
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
   register: unpack_out
+  become: True
 
 - name: "Move kafka to the {{ kafka_dir }}"
   shell: "{{ item }}"
@@ -61,6 +70,7 @@
     - "mv {{ download_dir }}/{{ unpack_out.files[0] }}* {{ kafka_dir }}/"
     - "rm -rf {{ download_dir }}/{{ unpack_out.files[0] }}"
   when: kafka_dir|length > 5
+  become: True
 
 - name: Create a simlink to the current verion of kafka folder
   file:
@@ -68,3 +78,6 @@
     path: "{{ kafka_dir_link }}"
     state: link
     force: yes
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True

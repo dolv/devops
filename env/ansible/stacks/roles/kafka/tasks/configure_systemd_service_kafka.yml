@@ -1,0 +1,17 @@
+---
+- name: Push customized kafka.service file to the remote server.
+  template:
+    src: kafka_systemd_service.j2
+    dest: "{{ kafka_systemd_service_file }}"
+    mode: 0644
+    owner: root
+    group: root
+  become: True
+ 
+- name: Enable service Kafka and ensure it is not masked
+  systemd:
+    daemon_reload: yes      
+    name: kafka
+    enabled: yes
+    masked: no
+  become: True

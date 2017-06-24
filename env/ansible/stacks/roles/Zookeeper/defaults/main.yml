@@ -51,3 +51,7 @@ zookeeper_electionsPort: 2183
 
 #zookeeper_log4g_prop: "DEBUG,ROLLINGFILE"
 zookeeper_log4g_prop: "INFO,ROLLINGFILE"
+
+zookeeper_systemd_service_file: /etc/systemd/system/zookeeper.service
+
+zookeeper_firewalld_zone: "internal"

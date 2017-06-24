@@ -35,3 +35,9 @@
     - install_opencpu
   become: True
   become_method: sudo
+
+-name: Configure SELinux to be permissive for APAHCE
+ selinux_permissive:
+    name: httpd_t
+    permissive: true
+ become: True
