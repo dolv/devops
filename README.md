@@ -2,6 +2,8 @@
 
 Here you see folder named env. It means environment provisioning. Under the env you will see split by provisioning tools: Ansible, Chef, Terraform maybe something else will be added.
 
+In the env/ansible/stacks/roles you can find README related to each role. I've created some there already.
+
 
 ## Notes About ansible & AZURE Cloud
 
