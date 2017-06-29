@@ -16,13 +16,13 @@ ansible_user=ops
 ansible_ssh_private_key_file=~/.ssh/ops_rsa
 
 [kafka_cluster]
-kafka01 ansible_host=nhqakafka01.corpdom1.com brokerId=0 myid=1
-kafka02 ansible_host=nhqakafka02.corpdom1.com brokerId=1 myid=2
-kafka03 ansible_host=nhqakafka03.corpdom1.com brokerId=2 myid=3
+nhqakafka01 ansible_host=nhqakafka01.corpdom1.com brokerId=0 myid=1
+nhqakafka02 ansible_host=nhqakafka02.corpdom1.com brokerId=1 myid=2
+nhqakafka03 ansible_host=nhqakafka03.corpdom1.com brokerId=2 myid=3
 
 [zookeeper_cluster]
-zookeeper01 ansible_host=nhqakafka01.corpdom1.com myid=1
-zookeeper02 ansible_host=nhqakafka02.corpdom1.com myid=2
-zookeeper03 ansible_host=nhqakafka03.corpdom1.com myid=3
+nhqazookeeper01 ansible_host=nhqakafka01.corpdom1.com myid=1
+nhqazookeeper02 ansible_host=nhqakafka02.corpdom1.com myid=2
+nhqazookeeper03 ansible_host=nhqakafka03.corpdom1.com myid=3
 
 

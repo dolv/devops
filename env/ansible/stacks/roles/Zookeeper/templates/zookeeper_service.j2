@@ -6,13 +6,13 @@ After=network.target remote-fs.target
 
 [Service]
 Environment=JAVA_HOME={{ java_dir_link }}
-Environment=PATH=$PATH:{{ java_dir_link }}/bin
+Environment=PATH=/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:{{ java_dir_link }}/bin
 Type=forking
 User={{ appuser }}
 Group={{ appuser }}
-ExecStart={{ zookeeper_dir_link }}bin/{{ zookeeper_start_script_name }} {{ zookeeper_start_script_params }}
-ExecStop={{ zookeeper_dir_link }}bin/{{ zookeeper_stop_script_name }} {{ zookeeper_stop_script_params }}
-ExecReload={{ zookeeper_dir_link }}bin/{{ zookeeper_start_script_name }} restart
+ExecStart={{ zookeeper_dir_link }}/bin/{{ zookeeper_start_script_name }} {{ zookeeper_start_script_params }}
+ExecStop={{ zookeeper_dir_link }}/bin/{{ zookeeper_stop_script_name }} {{ zookeeper_stop_script_params }}
+ExecReload={{ zookeeper_dir_link }}/bin/{{ zookeeper_start_script_name }} restart
 WorkingDirectory={{ zookeeper_dir_link }}
 
 [Install]
