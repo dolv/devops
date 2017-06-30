@@ -36,7 +36,7 @@
     - configure_zookeeper
     - install_zookeeper
 
-- include: configure_firewalld.yml
+- include: configure_firewalld_zookeeper.yml
   tags:
     - firewalld_zookeeper
     - install_zookeeper
@@ -49,3 +49,7 @@
 - include: configure_systemd_service_Zookeeper.yml
   tags:
     - configure_systemd_zookeeper
+
+- include: configure_sudoers_zookeeper.yml
+  tags:
+    - configure_sudoers_zookeeper

@@ -1,0 +1,7 @@
+# Cmnd alias specification
+Cmnd_Alias ZOOKEEPER_START = /bin/systemctl start zookeeper.service
+Cmnd_Alias ZOOKEEPER_STOP = /bin/systemctl stop zookeeper.service
+Cmnd_Alias ZOOKEEPER_STATUS = /bin/systemctl status zookeeper.service
+Cmnd_Alias ZOOKEEPER_MNGT = ZOOKEEPER_START, ZOOKEEPER_STOP, ZOOKEEPER_STATUS
+
+{{ appuser }}        ALL=(root) NOPASSWD: ZOOKEEPER_MNGT

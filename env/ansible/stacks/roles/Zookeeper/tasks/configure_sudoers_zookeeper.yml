@@ -1,0 +1,9 @@
+---
+- name: Push customized zookeeper permissions file for appuser to /etc/sudoers.d/.
+  template:
+    src: sudoers_zookeeper.j2
+    dest: /etc/sudoers.d/zookeeper
+    mode: 0440
+    owner: root
+    group: root
+  become: True

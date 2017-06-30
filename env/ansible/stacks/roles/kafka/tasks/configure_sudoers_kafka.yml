@@ -1,0 +1,9 @@
+---
+- name: Push customized kafka permissions file for appuser to /etc/sudoers.d/.
+  template:
+    src: sudoers_kafka.j2
+    dest: /etc/sudoers.d/kafka
+    mode: 0440
+    owner: root
+    group: root
+  become: True

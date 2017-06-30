@@ -17,7 +17,7 @@
     connect_timeout: 10
 
 - name: Check if Zookeeper is running using native means
-  shell: "./{{ zookeeper_stop_script_name }} status"
+  shell: "./{{ zookeeper_start_script_name }} status"
   args:
     chdir: "{{ zookeeper_dir }}/bin/"
   environment:

@@ -1,0 +1,7 @@
+# Cmnd alias specification
+Cmnd_Alias KAFKA_START = /bin/systemctl start kafka.service
+Cmnd_Alias KAFKA_STOP = /bin/systemctl stop kafka.service
+Cmnd_Alias KAFKA_STATUS = /bin/systemctl status kafka.service
+Cmnd_Alias KAFKA_MNGT = KAFKA_START, KAFKA_STOP, KAFKA_STATUS
+
+{{ appuser }}        ALL=(root) NOPASSWD: KAFKA_MNGT

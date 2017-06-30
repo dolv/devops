@@ -27,7 +27,7 @@
     - configure_kafka
     - install_kafka
 
-- include: configure_firewalld.yml
+- include: configure_firewalld_kafka.yml
   tags:
     - firewalld_kafka
     - install_kafka
@@ -40,3 +40,7 @@
 - include: configure_systemd_service_kafka.yml
   tags:
     - configure_systemd_kafka
+
+- include: configure_sudoers_kafka.yml
+  tags:
+    - configure_sudoers_kafka
