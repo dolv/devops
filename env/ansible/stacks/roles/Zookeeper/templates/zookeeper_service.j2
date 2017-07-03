@@ -17,5 +17,5 @@ ExecReload={{ zookeeper_dir_link }}/bin/{{ zookeeper_start_script_name }} restar
 WorkingDirectory={{ zookeeper_dir_link }}
 
 [Install]
-WantedBy=multi-user.target kafka.service
+WantedBy=multi-user.target
 RequiredBy=kafka.service
