@@ -3,6 +3,7 @@ Description=Apache Zookeeper server
 Documentation=http://zookeeper.apache.org
 Requires=network.target remote-fs.target 
 After=network.target remote-fs.target
+Before=kafka.service
 
 [Service]
 Environment=JAVA_HOME={{ java_dir_link }}
