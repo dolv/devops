@@ -1,7 +1,7 @@
 [Unit]
 Description=Apache Kafka server (broker)
 Documentation=http://kafka.apache.org/documentation.html
-Requires=network.target remote-fs.target 
+Requires=network.target remote-fs.target zookeeper.service
 After=network.target remote-fs.target zookeeper.service
 
 [Service]
