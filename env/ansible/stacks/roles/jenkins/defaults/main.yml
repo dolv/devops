@@ -14,6 +14,7 @@ jenkins_package_state: present
 jenkins_connection_delay: 5
 jenkins_connection_retries: 60
 jenkins_home: "{{ app_dir }}/jenkins"
+jenkins_cert_dir: "{{ jenkins_home }}/ssl"
 jenkins_hostname: localhost
 jenkins_http_port: 80
 jenkins_https_port: 443
@@ -42,3 +43,18 @@ jenkins_plugins:
   - greenballs
   - active-directory
 
+jenkins_ssl_cert_country_code: "US"
+jenkins_ssl_cert_state: "Texas"
+jenkins_ssl_cert_locality: "Austin"
+jenkins_ssl_cert_org_name: "Newgistics, Inc"
+jenkins_ssl_cert_org_unit: "Nethawk Project"
+jenkins_ssl_cert_cname: "nhjenkins01.corpdom1.com"
+jenkins_ssl_cert_email: "odudchenko@newgistics.com"
+jenkins_ssl_cert_duration: 365
+jenkins_ssl_cert_altnames:
+  - number: 1
+    name: "nhjenkins"
+  - number: 2
+    name: "nhjenkins.corpdom1.com"
+  - number: 3
+    name: "nhjenkins.newgistics.com"
