@@ -1,0 +1,83 @@
+---
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - curl
+      - apt-transport-https
+    state: installed
+  tags:
+    - install_packages_jenkins
+
+- name: Add Jenkins apt repository key.
+  apt_key:
+    url: "{{ jenkins_repo_key_url }}"
+    state: present
+  become: True
+  become_method: sudo
+  tags:
+    - install_jenkins
+
+- name: Add Jenkins apt repository.
+  apt_repository:
+    repo: "{{ jenkins_repo_url }}"
+    state: present
+    update_cache: yes
+  become: True
+  become_method: sudo
+  tags:
+    - install_jenkins
+
+- name: Ensure application folder exists.
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ appuser }}"
+    group: "{{ appuser }}"
+  become: True
+  become_method: sudo
+  with_items:
+    - "{{ app_dir }}"
+    - "{{ download_dir }}"
+    - "{{ jenkins_home }}"
+    - "{{ jenkins_cert_dir }}"
+  tags:
+    - create_folders_jenkins
+    
+- name: Download specific Jenkins version.
+  get_url:
+    url: "{{ jenkins_pkg_url }}/jenkins_{{ jenkins_version }}_all.deb"
+    dest: "/tmp/jenkins_{{ jenkins_version }}_all.deb"
+  when: jenkins_version is defined
+  tags:
+    - download_jenkins
+    - install_jenkins
+
+- name: Check if we downloaded a specific version of Jenkins.
+  stat:
+    path: "/tmp/jenkins_{{ jenkins_version }}_all.deb"
+  register: specific_version
+  when: jenkins_version is defined
+  tags:
+    - download_jenkins
+    - install_jenkins
+
+- name: Install our specific version of Jenkins.
+  apt:
+    deb: "/tmp/jenkins_{{ jenkins_version }}_all.deb"
+    state: installed
+  when: jenkins_version is defined and specific_version.stat.exists
+  become: True
+  become_method: sudo
+  notify: configure default users
+  tags:
+    - install_jenkins
+
+- name: Ensure Jenkins is installed.
+  apt:
+    name: jenkins
+    state: "{{ jenkins_package_state }}"
+  notify: configure default users
+  become: True
+  become_method: sudo
+  tags:
+    - install_jenkins

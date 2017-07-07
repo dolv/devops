@@ -1,0 +1,7 @@
+---
+- name: PROVISION CI SERVER PLAYBOOK
+  hosts: all
+
+  roles:
+    - java
+    - jenkins

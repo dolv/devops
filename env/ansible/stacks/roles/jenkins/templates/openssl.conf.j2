@@ -1,0 +1,31 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+
+[req_distinguished_name]
+countryName = Country Name (2 letter code)
+countryName_default = {{ jenkins_ssl_cert_country_code | default('') }}
+stateOrProvinceName = State or Province Name (full name)
+stateOrProvinceName_default = {{ jenkins_ssl_cert_state | default('') }}
+localityName = Locality Name (eg, city)
+localityName_default = {{ jenkins_ssl_cert_locality | default('') }}
+organizationName = Organization Name (eg, company)
+organizationName_default = {{ jenkins_ssl_cert_org_name | default ('') }}
+organizationalUnitName  = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = {{ jenkins_ssl_cert_org_unit | default('') }}
+commonName = Common Name (eg, your name or your server's hostname)
+commonName_default = {{ jenkins_ssl_cert_cname | default('') }}
+commonName_max  = 64
+emailAddress = Email Address
+emailAddress_default = {{ jenkins_ssl_cert_email | default('') }}
+
+[ v3_req ]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+{% for item in jenkins_ssl_cert_altnames %}
+DNS.{{ item.number }} = {{ item.name }}
+{% endfor %}

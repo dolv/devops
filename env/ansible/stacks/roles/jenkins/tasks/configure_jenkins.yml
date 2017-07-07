@@ -1,0 +1,40 @@
+---
+# Configure Jenkins init settings.
+- include: settings.yml
+  tags:
+    - install_jenkins
+    - configure_jenkins
+
+# Make sure Jenkins starts, then configure Jenkins.
+- name: Ensure Jenkins runs on startup.
+  service: name=jenkins enabled=yes
+  tags:
+    - install_jenkins
+    - configure_jenkins
+
+- include: start_jenkins.yml
+  tags:
+    - install_jenkins
+    - configure_jenkins
+    - start_jenkins
+
+- name: Get the jenkins-cli jarfile from the Jenkins server.
+  get_url:
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}/jnlpJars/jenkins-cli.jar"
+    dest: "{{ jenkins_jar_location }}"
+  register: jarfile_get
+  until: "'OK' in jarfile_get.msg or 'file already exists' in jarfile_get.msg"
+  retries: 5
+  delay: 10
+  check_mode: no
+  tags:
+    - install_jenkins
+    - configure_jenkins
+
+- name: Remove Jenkins security init scripts after first startup.
+  file:
+    path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    state: absent
+  tags:
+    - install_jenkins
+    - configure_jenkins

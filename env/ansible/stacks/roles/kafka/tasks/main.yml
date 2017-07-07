@@ -6,7 +6,7 @@
 - include: ../../generic/tasks/install_packages.yml
   tags:
     - initial_os_proviosion
-    - install_packages
+    - install_packages_kafka
     - install_kafka
 
 - include: download_kafka.yml

@@ -10,6 +10,7 @@ research_nodes
 zookeeper_cluster
 kafka_cluster
 opencpu_nodes
+ci_server
 
 [eastus2_sandbox:vars]
 ansible_user=usertr
@@ -47,3 +48,7 @@ kafka03 ansible_host=researchnode13.sandbox.dolv brokerId=2 myid=3
 
 [opencpu_nodes]
 opencpuNode01 ansible_host=researchnode02.sandbox.dolv
+
+[ci_server]
+jenkins ansible_host=researchnode02.sandbox.dolv
+
